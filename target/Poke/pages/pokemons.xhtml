@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Cadastro de Pokémons</title>
+</h:head>
+<h:body>
+	<p:growl id="msg"/>
+	<h:form id="formTab">
+		<p:panel header="Pokemons">
+			<p:dataTable emptyMessage="Sem registros" paginator="true"
+			value="#{pokemonBean.pokemons}" var="poke" id="table">
+				<f:facet name="header">
+					<p:commandButton value="Novo" actionListener="#{pokemonBean.novo}" oncomplete="PF('pokemonsDialog').show();" update=":formCad:telaCad :msg">
+						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener"/>
+					</p:commandButton>
+				</f:facet>
+				<p:column headerText="Imagem" width="60">
+					<p:graphicImage value="#{imageBean.img}" width="50">
+						<f:param name="parCodigo" value="#{poke.codigo}"/>
+					</p:graphicImage>
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{poke.nome}" filterBy="#{poke.nome}">
+					<h:outputText value="#{poke.nome}" />
+				</p:column>
+				<p:column headerText="1º Tipo" sortBy="#{poke.tipo1.nome}" filterBy="#{poke.tipo1.nome}" >
+					<h:outputText value="#{poke.tipo1.nome}" />
+				</p:column>
+				<p:column headerText="2º Tipo" sortBy="#{poke.tipo2.nome}" filterBy="#{poke.tipo2.nome}">
+					<h:outputText value="#{poke.tipo2.nome}" />
+				</p:column>
+				<p:column headerText="Vida" sortBy="#{poke.vida}">
+					<h:outputText value="#{poke.vida}" />
+				</p:column>
+				<p:column headerText="Ataque" sortBy="#{poke.ataque}">
+					<h:outputText value="#{poke.ataque}" />
+				</p:column>
+				<p:column headerText="Ataque Especial" sortBy="#{poke.ataque_e}">
+					<h:outputText value="#{poke.ataque_e}" />
+				</p:column>
+				<p:column headerText="Defesa" sortBy="#{poke.defesa}">
+					<h:outputText value="#{poke.defesa}" />
+				</p:column>
+				<p:column headerText="Defesa Especial" sortBy="#{poke.defesa_e}">
+					<h:outputText value="#{poke.defesa_e}" />
+				</p:column>
+				<p:column headerText="Velocidade" sortBy="#{poke.velocidade}">
+					<h:outputText value="#{poke.velocidade}" />
+				</p:column>
+				<p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-trash" actionListener="#{pokemonBean.excluir}"
+					update=":msg :formTab:table">
+						<p:confirm header="Confirmação" 
+						message="Excluir esse Pokémon?" icon="ui-icon-alert" />
+						<f:attribute name="pokemonExcluir" value="#{poke}"/>
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon-pencil" oncomplete="PF('pokemonsDialog').show();"
+					actionListener="#{pokemonBean.alterar}" update=":formCad:telaCad :msg">
+						<f:attribute name="pokemonAlterar" value="#{poke}"/>
+						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener"/>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+		</p:panel>
+	</h:form>
+	
+	<p:dialog header="Pokémons - Cadastro" widgetVar="pokemonsDialog"
+	resizable="false" draggable="false" modal="true" closable="false">
+		<h:form id="formCad"  enctype="multipart/form-data">
+			<h:panelGrid columns="2" id="telaCad">
+				<p:outputLabel value="Imagem"/>
+				<p:fileUpload auto="true" id="fileUp" mode="advanced" fileUploadListener="#{pokemonBean.upload}"/>
+				<p:outputLabel value="Nome"/>
+				<p:inputText size="20" maxlength="100" value="#{pokemonBean.pokemon.nome}"
+				required="true" requiredMessage="Nome: Obrigatório"/>
+				<p:outputLabel value="Tipo Principal"/>
+				<p:selectOneMenu filter="true" value="#{pokemonBean.pokemon.tipo1}" 
+				required="true" requiredMessage="Tipo principal: Obrigatório"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um tipo" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.tipos}" var="tipo"
+					itemLabel="#{tipo.nome}"
+					itemValue="#{tipo}"/>
+				</p:selectOneMenu>
+				<p:outputLabel value="Tipo Secundário"/>
+				<p:selectOneMenu filter="true" value="#{pokemonBean.pokemon.tipo2}" converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um tipo" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.tipos}" var="tipo"
+					itemLabel="#{tipo.nome}"
+					itemValue="#{tipo}"/>
+				</p:selectOneMenu>
+				<p:outputLabel value="Vida"/>
+				<p:inputText id="Vida" size="4" maxlength="3" value="#{pokemonBean.pokemon.vida}"
+				required="true" requiredMessage="Vida: valor obrigatório">
+					<f:validateLongRange minimum="1"/>
+				</p:inputText>
+				<p:outputLabel value="Ataque"/>
+				<p:inputText id="Ataque" size="4" maxlength="3" value="#{pokemonBean.pokemon.ataque}"
+				required="true" requiredMessage="Ataque: valor obrigatório">
+					<f:validateLongRange minimum="1"/>
+				</p:inputText>
+				<p:outputLabel value="Ataque Especial"/>
+				<p:inputText id="AtaqueEspecial" size="4" maxlength="3" value="#{pokemonBean.pokemon.ataque_e}"
+				required="true" requiredMessage="Ataque Especial: valor obrigatório">
+					<f:validateLongRange minimum="1"/>
+				</p:inputText>
+				<p:outputLabel value="Defesa"/>
+				<p:inputText id="Defesa" size="4" maxlength="3" value="#{pokemonBean.pokemon.defesa}"
+				required="true" requiredMessage="Defesa: valor obrigatório">
+					<f:validateLongRange minimum="1"/>
+				</p:inputText>
+				<p:outputLabel value="Defesa Especial"/>
+				<p:inputText id="DefesaEspecial" size="4" maxlength="3" value="#{pokemonBean.pokemon.defesa_e}"
+				required="true" requiredMessage="Defesa Especial: valor obrigatório">
+					<f:validateLongRange minimum="1"/>
+				</p:inputText>
+				<p:outputLabel value="Velocidade"/>
+				<p:inputText id="Velocidade" size="4" maxlength="3" value="#{pokemonBean.pokemon.velocidade}"
+				required="true" requiredMessage="Velocidade: valor obrigatório">
+					<f:validateLongRange minimum="1"/>
+				</p:inputText>
+				
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="formTab">
+				<p:commandButton value="Salvar" actionListener="#{pokemonBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
+				<p:commandButton value="Fechar" oncomplete="PF('pokemonsDialog').hide()"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
