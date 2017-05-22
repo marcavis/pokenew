@@ -102,6 +102,19 @@ public class GenericDao <Entidade>{
 		}
 	}
 	
-	
+	@SuppressWarnings("unchecked")
+	public List<Entidade> listarTodos(String campo, Integer valor){
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		try {
+			Criteria consulta = sessao.createCriteria(classe);
+			consulta.add(Restrictions.eq(campo, valor));
+			List<Entidade> resultado = consulta.list();
+			return resultado;
+		} catch (Exception e) {
+			throw(e);
+		}finally{
+			sessao.close();
+		}
+	}
 
 }

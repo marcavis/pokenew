@@ -23,7 +23,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				<p:column headerText="Pokémons">
 					<p:commandButton icon="ui-icon-plus" oncomplete="PF('pokeRotasDialog').show();"
 					actionListener="#{rotaPokemonBean.novo}" update=":pokeRotasCad:telaCad :msg">
-						<!--  <f:attribute name="pokeCadastrar" value="#{rotaPokemon}"/> -->
+						<f:attribute name="rotaAtual" value="#{rota}"/>
 					</p:commandButton>
 				</p:column>
 				<p:column headerText="Opções">
@@ -70,14 +70,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 		<h:form id="pokeRotasCad">
 			<h:panelGrid columns="2" id="telaCad">
 				<p:outputLabel value="Nome: "/>
-				<p:outputLabel value="#{rotaBean.rota.nome}"/>
-				<p:outputLabel value="Rotas"/>
-				<p:selectOneMenu filter="true" value="#{rotaPokemonBean.rotaPokemon.rota}"
-				converter="omnifaces.SelectItemsConverter">
-					<f:selectItems value="#{rotaBean.rotas}" var="rota"
-					itemLabel="#{rota.nome}"
-					itemValue="#{rota.codigo}"/>
-				</p:selectOneMenu>
+				<p:outputLabel value="#{rotaPokemonBean.rotaPokemon.nomeDaRota}"/>
 				<p:outputLabel value="Pokémon"/>
 				<p:selectOneMenu filter="true" value="#{rotaPokemonBean.rotaPokemon.pokemon}"
 				converter="omnifaces.SelectItemsConverter">
@@ -86,11 +79,26 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 					itemValue="#{pokemon.codigo}"/>
 				</p:selectOneMenu>
 
-				<p:commandButton value="Salvar" actionListener="#{rotaPokemonBean.salvar}" update=":msg :pokeRotasCad:telaCad :formTab:table">
-					<!-- <f:param name="codigoRota" value="#{rotaBean.rota.codigo}"/>  -->
-				</p:commandButton>
+				<p:commandButton value="Salvar" actionListener="#{rotaPokemonBean.salvar}" update=":msg :pokeRotasCad:telaCad :formTab:table"/>
 				<p:commandButton value="Fechar" oncomplete="PF('pokeRotasDialog').hide()"/>
 			</h:panelGrid>
+			<p:dataGrid var="poke" value="#{rotaPokemonBean.pokemonsDaRota}" columns="3" layout="grid"
+        		rows="12" paginator="true" id="pokes" 
+        		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+ 					<f:attribute name="rotaAtual" value="#{rotaPokemonBean.rotaPokemon.rota}"/>
+		        <f:facet name="header">
+		            Pokémons da Rota
+		        </f:facet>
+		 
+		        <p:panel header="#{poke.nome}" style="text-align:center">
+		            <h:panelGrid columns="1" style="width:100%">
+		                <p:graphicImage value="#{imageBean.img}" width="50">
+		                	<f:param name="parCodigo" value="#{poke.codigo}"/>
+						</p:graphicImage>
+		            </h:panelGrid>
+		        </p:panel>
+		 
+		    </p:dataGrid>
 		</h:form>
 	</p:dialog>
 </h:body>
