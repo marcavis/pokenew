@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Cadastro de Equipe</title>
+</h:head>
+<h:body>
+	<p:growl id="msg"/>
+	<h:form id="formTab">
+		<p:panel header="Equipes">
+			<p:dataTable emptyMessage="Sem registros" paginator="true"
+			value="#{equipeBean.equipes}" var="equipe" id="table">
+				<f:facet name="header">
+					<p:commandButton value="Novo" actionListener="#{equipeBean.novo}" oncomplete="PF('equipesDialog').show();" update=":formCad:telaCad :msg"/>
+				</f:facet>
+				<p:column headerText="Pokémon 1">
+					<h:outputText value="#{equipe.pokemon1.nome}" />
+				</p:column>
+				<p:column headerText="Pokémon 2">
+					<h:outputText value="#{equipe.pokemon2.nome}" />
+				</p:column>
+				<p:column headerText="Pokémon 3">
+					<h:outputText value="#{equipe.pokemon3.nome}" />
+				</p:column>
+				<p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-trash" actionListener="#{equipeBean.excluir}"
+					update=":msg :formTab:table">
+						<p:confirm header="Confirmação" 
+						message="Excluir esse Equipe?" icon="ui-icon-alert" />
+						<f:attribute name="equipeExcluir" value="#{equipe}"/>
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon-pencil" oncomplete="PF('equipesDialog').show();"
+					actionListener="#{equipeBean.alterar}" update=":formCad:telaCad :msg">
+						<f:attribute name="equipeAlterar" value="#{equipe}"/>
+					</p:commandButton>
+					
+					<p:commandButton value="Batalha" actionListener='#{batalhaBean.novo}'
+					 oncomplete="PF('batalhaDialog').show();" update=":formCad:telaCad :msg">
+						 <f:attribute name="equipeAtual" value="#{equipe}"/>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+		</p:panel>
+	</h:form>
+	
+	<p:dialog header="Equipes - Cadastro" widgetVar="equipesDialog"
+	resizable="false" draggable="false" modal="true" closable="false">
+		<h:form id="formCad">
+			<h:panelGrid columns="2" id="telaCad">
+				<p:outputLabel value="1º Pokémon"/>
+				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon1}" 
+				required="true" requiredMessage="1º Pokémon: Obrigatório"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
+					itemLabel="#{poke.nome}"
+					itemValue="#{poke}"/>
+				</p:selectOneMenu>
+				<p:outputLabel value="2º Pokémon"/>
+				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon2}" converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
+					itemLabel="#{poke.nome}"
+					itemValue="#{poke}"/>
+				</p:selectOneMenu>
+				<p:outputLabel value="3º Pokémon"/>
+				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon3}" converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
+					itemLabel="#{poke.nome}"
+					itemValue="#{poke}"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="formTab">
+				<p:commandButton value="Salvar" actionListener="#{equipeBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
+				<p:commandButton value="Fechar" oncomplete="PF('equipesDialog').hide()"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:dialog header="Escolher Oponentes" widgetVar="batalhaDialog"
+	resizable="false" draggable="false" modal="true" closable="false">
+		<h:form id="batalhaCad">
+			<h:panelGrid columns="2" id="telaBat">
+				<p:outputLabel value="Seu Pokémon"/>
+				<p:selectOneMenu filter="true" value="#{batalhaBean.batalha.pokemon1}" 
+				required="true" requiredMessage="1º Pokémon: Obrigatório"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon da sua equipe" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
+					itemLabel="#{poke.nome}"
+					itemValue="#{poke}"/>
+				</p:selectOneMenu>
+				<p:outputLabel value="Pokémon adversário"/>
+				<p:selectOneMenu filter="true" value="#{batalhaBean.batalha.pokemon2}"
+				required="true" requiredMessage="2º Pokémon: Obrigatório"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
+					itemLabel="#{poke.nome}"
+					itemValue="#{poke}"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="formTab">
+				<p:commandButton value="Iniciar" actionListener="#{batalhaBean.batalha.lutar}"
+				oncomplete="PF('batalhaDialog').hide();PF('resultadoDialog').show()" update=":msg :batalhaCad:telaBat :resultadoCad:resultado :formTab:table"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:dialog header="Batalha" widgetVar="resultadoDialog"
+	resizable="false" draggable="false" modal="true" closable="false">
+		<h:form id="resultadoCad">
+			<h:panelGrid columns="1" id="resultado">
+				<p:dataList value="#{batalhaBean.batalha.mensagens}" var="msg">
+			        <f:facet name="header">
+			            Resultado
+			        </f:facet>
+			        #{msg}
+			    </p:dataList>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="formTab">
+				<p:commandButton value="Fechar" oncomplete="PF('resultadoDialog').hide()"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

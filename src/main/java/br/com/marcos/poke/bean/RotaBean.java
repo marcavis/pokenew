@@ -10,9 +10,7 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
-import br.com.marcos.poke.dao.PokemonDao;
 import br.com.marcos.poke.dao.RotaDao;
-import br.com.marcos.poke.domain.Pokemon;
 import br.com.marcos.poke.domain.Rota;
 import br.com.marcos.poke.domain.RotaPokemon;
 
@@ -22,7 +20,6 @@ import br.com.marcos.poke.domain.RotaPokemon;
 public class RotaBean implements Serializable{
 	private Rota rota;
 	private List<Rota> rotas;
-	private Pokemon pokemonDaRota;
 	private RotaPokemon rotaPokemon;
 	
 	public void excluir(ActionEvent evento) {
@@ -83,18 +80,6 @@ public class RotaBean implements Serializable{
 		this.rota = rota;
 	}
 
-//	public void addPokemon() {
-//		pokemonsDaRota.add(pokemonDaRota);
-//	}
-
-	public Pokemon getPokemonDaRota() {
-		return pokemonDaRota;
-	}
-
-	public void setPokemonDaRota(Pokemon pokemonDaRota) {
-		this.pokemonDaRota = pokemonDaRota;
-	}
-
 	public RotaPokemon getRotaPokemon() {
 		return rotaPokemon;
 	}
@@ -102,6 +87,8 @@ public class RotaBean implements Serializable{
 	public void setRotaPokemon(RotaPokemon rotaPokemon) {
 		this.rotaPokemon = rotaPokemon;
 	}
+	
+
 
 	public void salvar() {
 		try {

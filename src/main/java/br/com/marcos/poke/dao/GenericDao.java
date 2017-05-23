@@ -103,7 +103,7 @@ public class GenericDao <Entidade>{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Entidade> listarTodos(String campo, Integer valor){
+	public List<Entidade> listarTodos(String campo, Long valor){
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
 		try {
 			Criteria consulta = sessao.createCriteria(classe);

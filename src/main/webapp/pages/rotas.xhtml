@@ -22,7 +22,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				</p:column>
 				<p:column headerText="Pokémons">
 					<p:commandButton icon="ui-icon-plus" oncomplete="PF('pokeRotasDialog').show();"
-					actionListener="#{rotaPokemonBean.novo}" update=":pokeRotasCad:telaCad :msg">
+					actionListener="#{rotaPokemonBean.novo}" update=":pokeRotasCad:telaCad :pokeRotasCad:listaLoc :msg">
 						<f:attribute name="rotaAtual" value="#{rota}"/>
 					</p:commandButton>
 				</p:column>
@@ -79,27 +79,20 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 					itemValue="#{pokemon.codigo}"/>
 				</p:selectOneMenu>
 
-				<p:commandButton value="Salvar" actionListener="#{rotaPokemonBean.salvar}" update=":msg :pokeRotasCad:telaCad :formTab:table"/>
+				<p:commandButton value="Salvar" actionListener="#{rotaPokemonBean.salvar}"
+					update=":msg :pokeRotasCad:telaCad :pokeRotasCad:listaLoc :formTab:table"/>
 				<p:commandButton value="Fechar" oncomplete="PF('pokeRotasDialog').hide()"/>
 			</h:panelGrid>
-			<p:dataGrid var="poke" value="#{rotaPokemonBean.pokemonsDaRota}" columns="3" layout="grid"
-        		rows="12" paginator="true" id="pokes" 
-        		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
- 					<f:attribute name="rotaAtual" value="#{rotaPokemonBean.rotaPokemon.rota}"/>
+			<p:dataTable emptyMessage="Sem registros" value="#{rotaPokemonBean.localizacoesDestaRota}" 
+				style="width:250px;" id="listaLoc" var="loc" type="definition">
 		        <f:facet name="header">
 		            Pokémons da Rota
 		        </f:facet>
-		 
-		        <p:panel header="#{poke.nome}" style="text-align:center">
-		            <h:panelGrid columns="1" style="width:100%">
-		                <p:graphicImage value="#{imageBean.img}" width="50">
-		                	<f:param name="parCodigo" value="#{poke.codigo}"/>
-						</p:graphicImage>
-						
-		            </h:panelGrid>
-		        </p:panel>
-		 
-		    </p:dataGrid>
+		        <p:column filterValue="{loc.rota}">
+					<h:outputText value="#{loc.nomeDoPokemon}" />
+				</p:column>
+		        	
+		    </p:dataTable>
 		</h:form>
 	</p:dialog>
 </h:body>
