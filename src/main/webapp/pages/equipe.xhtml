@@ -11,11 +11,12 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 <h:body>
 	<p:growl id="msg"/>
 	<h:form id="formTab">
-		<p:panel header="Equipes">
+	<p:commandButton value="Novo" actionListener="#{equipeBean.novo}" oncomplete="PF('teamTable').show();" update=":formCad:telaCad :msg"/>
+		<p:panel header="Equipe" widgetVar="teamTable" visible="false">
 			<p:dataGrid emptyMessage="Sem registros" paginator="true"
-			value="#{equipeBean.equipes}" var="equipe" id="table">
+			value="#{equipeBean.equipes}" var="equipe" id="table" >
 				<f:facet name="header">
-					<p:commandButton value="Novo" actionListener="#{equipeBean.novo}" oncomplete="PF('equipesDialog').show();" update=":formCad:telaCad :msg"/>
+					
 				</f:facet>
 				<p:panel>
 					<p:panelGrid headerText="Pokémon 1">

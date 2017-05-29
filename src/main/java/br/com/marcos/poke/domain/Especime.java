@@ -1,9 +1,12 @@
 package br.com.marcos.poke.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+@SuppressWarnings("serial")
+@Entity
 public class Especime extends GenericDomain{
 	@ManyToOne
 	@JoinColumn(nullable=false)
