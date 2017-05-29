@@ -70,13 +70,13 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 		<h:form id="pokeRotasCad">
 			<h:panelGrid columns="2" id="telaCad">
 				<p:outputLabel value="Nome: "/>
-				<p:outputLabel value="#{rotaPokemonBean.rotaPokemon.nomeDaRota}"/>
+				<p:outputLabel value="#{rotaPokemonBean.rotaPokemon.rota.nome}"/>
 				<p:outputLabel value="Pokémon"/>
 				<p:selectOneMenu filter="true" value="#{rotaPokemonBean.rotaPokemon.pokemon}"
 				converter="omnifaces.SelectItemsConverter">
 					<f:selectItems value="#{pokemonBean.pokemons}" var="pokemon"
 					itemLabel="#{pokemon.nome}"
-					itemValue="#{pokemon.codigo}"/>
+					itemValue="#{pokemon}"/>
 				</p:selectOneMenu>
 
 				<p:commandButton value="Salvar" actionListener="#{rotaPokemonBean.salvar}"
@@ -88,8 +88,8 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 		        <f:facet name="header">
 		            Pokémons da Rota
 		        </f:facet>
-		        <p:column filterValue="{loc.rota}">
-					<h:outputText value="#{loc.nomeDoPokemon}" />
+		        <p:column>
+					<h:outputText value="#{loc.pokemon.nome}" />
 				</p:column>
 		        	
 		    </p:dataTable>

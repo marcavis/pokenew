@@ -12,7 +12,6 @@ import javax.faces.event.ActionEvent;
 import org.omnifaces.util.Messages;
 
 import br.com.marcos.poke.dao.PokemonDao;
-import br.com.marcos.poke.dao.RotaDao;
 import br.com.marcos.poke.dao.RotaPokemonDao;
 import br.com.marcos.poke.domain.Pokemon;
 import br.com.marcos.poke.domain.Rota;
@@ -33,12 +32,10 @@ public class RotaPokemonBean implements Serializable{
 		try {
 			rotaPokemon = (RotaPokemon) evento.getComponent().getAttributes().get("rotaPokemonExcluir");
 			RotaPokemonDao dao = new RotaPokemonDao();
-			RotaDao rdao = new RotaDao();
-			PokemonDao pdao = new PokemonDao();
 			dao.excluir(rotaPokemon);
 			listar();
-			Messages.addGlobalInfo(rdao.buscar(rotaPokemon.getRota()).getNome() + " não contém mais o pokémon "
-					+ pdao.buscar(rotaPokemon.getPokemon()).getNome());
+			Messages.addGlobalInfo(rotaPokemon.getRota().getNome() + " não contém mais o pokémon "
+					+ rotaPokemon.getPokemon().getNome());
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao desassociar Rota com Pokémon");
 			e.printStackTrace();
@@ -65,16 +62,11 @@ public class RotaPokemonBean implements Serializable{
 	public void novo(ActionEvent evento) {
 		rotaPokemon = new RotaPokemon();
 		rota = (Rota)evento.getComponent().getAttributes().get("rotaAtual");
-		rotaPokemon.setRota(rota.getCodigo());
+		rotaPokemon.setRota(rota);
 	}
 
 	public RotaPokemon getRotaPokemon() {
 		return rotaPokemon;
-	}
-
-
-	public void setRota(RotaPokemon rotaPokemon) {
-		this.rotaPokemon = rotaPokemon;
 	}
 
 	public List<RotaPokemon> getLocalizacoes() {
@@ -84,11 +76,12 @@ public class RotaPokemonBean implements Serializable{
 	
 	public List<RotaPokemon> getLocalizacoesDestaRota() {
 		listar();
-		List<RotaPokemon> resultado = new ArrayList<RotaPokemon>();
+		ArrayList<RotaPokemon> resultado = new ArrayList<RotaPokemon>();
 		for (RotaPokemon rp : localizacoes) {
-			if(rp.getRota() == rotaPokemon.getRota())
+			if(rp.getRota().getCodigo() == rotaPokemon.getRota().getCodigo())
 				resultado.add(rp);
 		}
+		
 		return resultado;
 	}
 	
@@ -140,17 +133,15 @@ public class RotaPokemonBean implements Serializable{
 		try {
 			RotaPokemonDao dao = new RotaPokemonDao();
 			for (RotaPokemon rp : localizacoes) {
-				if(rotaPokemon.getPokemon() == rp.getPokemon() &&
-						rotaPokemon.getRota() == rp.getRota()) {
+				if(rotaPokemon.getPokemon().getCodigo() == rp.getPokemon().getCodigo() &&
+						rotaPokemon.getRota().getCodigo() == rp.getRota().getCodigo()) {
 					Messages.addGlobalError("Erro: Pokémon já foi incluído nesta rota!");
 					return;
 				}
 			}
 			dao.merge(rotaPokemon);
-			RotaDao rdao = new RotaDao();
-			PokemonDao pdao = new PokemonDao();
-			Messages.addGlobalInfo(pdao.buscar(rotaPokemon.getPokemon()).getNome() + " incluído na rota "
-					+ rdao.buscar(rotaPokemon.getRota()).getNome());
+			Messages.addGlobalInfo(rotaPokemon.getPokemon().getNome() + " incluído na rota "
+					+ rotaPokemon.getRota().getNome());
 			//novo();
 			listar();
 		} catch (Exception e) {

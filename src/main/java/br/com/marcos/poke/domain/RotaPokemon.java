@@ -2,20 +2,20 @@ package br.com.marcos.poke.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
-
-import br.com.marcos.poke.dao.PokemonDao;
-import br.com.marcos.poke.dao.RotaDao;
 
 @SuppressWarnings("serial")
 @Entity
 public class RotaPokemon extends GenericDomain{
 
+	@ManyToOne
 	@JoinColumn(nullable=false)
-	private Long rota;
+	private Rota rota;
 	
+	@ManyToOne
 	@JoinColumn(nullable=false)
-	private Long pokemon;
+	private Pokemon pokemon;
 	
 	@Transient
 	private String nomeDaRota;
@@ -23,37 +23,19 @@ public class RotaPokemon extends GenericDomain{
 	@Transient
 	private String nomeDoPokemon;
 	
-	public Long getRota() {
+	public Rota getRota() {
 		return rota;
 	}
 
-	public void setRota(Long rota) {
+	public void setRota(Rota rota) {
 		this.rota = rota;
 	}
 
-	public Long getPokemon() {
+	public Pokemon getPokemon() {
 		return pokemon;
 	}
 
-	public void setPokemon(Long pokemon) {
+	public void setPokemon(Pokemon pokemon) {
 		this.pokemon = pokemon;
-	}
-	
-	public String getNomeDaRota() {
-		RotaDao rdao = new RotaDao();
-		return rdao.buscar(rota).getNome();
-	}
-	
-	public void setNomeDaRota(String nome) {
-		nomeDaRota = nome;
-	}
-	
-	public String getNomeDoPokemon() {
-		PokemonDao pdao = new PokemonDao();
-		return pdao.buscar(pokemon).getNome();
-	}
-	
-	public void setNomeDoPokemon(String nome) {
-		nomeDoPokemon = nome;
 	}
 }
