@@ -83,7 +83,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 					update=":msg :pokeRotasCad:telaCad :pokeRotasCad:listaLoc :formTab:table"/>
 				<p:commandButton value="Fechar" oncomplete="PF('pokeRotasDialog').hide()"/>
 			</h:panelGrid>
-			<p:dataTable emptyMessage="Sem registros" value="#{rotaPokemonBean.localizacoesDestaRota}" 
+			<p:dataTable emptyMessage="Sem registros" value="#{rotaPokemonBean.rotaPokemon.localizacoesDestaRota}" 
 				style="width:250px;" id="listaLoc" var="loc" type="definition">
 		        <f:facet name="header">
 		            Pokémons da Rota

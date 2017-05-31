@@ -74,17 +74,6 @@ public class RotaPokemonBean implements Serializable{
 		return localizacoes;
 	}
 	
-	public List<RotaPokemon> getLocalizacoesDestaRota() {
-		listar();
-		ArrayList<RotaPokemon> resultado = new ArrayList<RotaPokemon>();
-		for (RotaPokemon rp : localizacoes) {
-			if(rp.getRota().getCodigo() == rotaPokemon.getRota().getCodigo())
-				resultado.add(rp);
-		}
-		
-		return resultado;
-	}
-	
 	public void setLocalizacoes(List<RotaPokemon> localizacoes) {
 		this.localizacoes = localizacoes;
 	}

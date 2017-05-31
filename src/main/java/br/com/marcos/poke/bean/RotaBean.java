@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
@@ -15,7 +16,7 @@ import br.com.marcos.poke.domain.Rota;
 import br.com.marcos.poke.domain.RotaPokemon;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 @SuppressWarnings("serial")
 public class RotaBean implements Serializable{
 	private Rota rota;
