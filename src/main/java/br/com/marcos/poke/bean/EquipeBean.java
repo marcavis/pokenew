@@ -53,6 +53,16 @@ public class EquipeBean implements Serializable{
 	public void novo() {
 		equipe = new Equipe();
 	}
+	
+	public void adicionar() {
+		listar();
+		if (getEquipes().size() >= 1) {
+			equipe = getEquipes().get(0);
+		} else {
+			novo();
+		}
+		salvar();
+	}
 
 	public Equipe getEquipe() {
 		return equipe;
@@ -74,9 +84,6 @@ public class EquipeBean implements Serializable{
 		try {
 			EquipeDao dao = new EquipeDao();
 			dao.merge(equipe);
-			Messages.addGlobalInfo("Equipe cadastrada com sucesso");
-			novo();
-			listar();
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao cadastrar Equipe");
 			e.printStackTrace();

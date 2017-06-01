@@ -20,7 +20,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 					</p:commandButton>
 				</f:facet>
 				<p:column headerText="Imagem" width="60">
-					<p:graphicImage value="#{imageBean.img}" width="50">
+					<p:graphicImage value="#{imageBean.img}" width="50" cache="false">
 						<f:param name="parCodigo" value="#{poke.codigo}"/>
 					</p:graphicImage>
 				</p:column>
@@ -39,11 +39,11 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				<p:column headerText="Ataque" sortBy="#{poke.ataque}">
 					<h:outputText value="#{poke.ataque}" />
 				</p:column>
-				<p:column headerText="Ataque Especial" sortBy="#{poke.ataque_e}">
-					<h:outputText value="#{poke.ataque_e}" />
-				</p:column>
 				<p:column headerText="Defesa" sortBy="#{poke.defesa}">
 					<h:outputText value="#{poke.defesa}" />
+				</p:column>
+				<p:column headerText="Ataque Especial" sortBy="#{poke.ataque_e}">
+					<h:outputText value="#{poke.ataque_e}" />
 				</p:column>
 				<p:column headerText="Defesa Especial" sortBy="#{poke.defesa_e}">
 					<h:outputText value="#{poke.defesa_e}" />
@@ -108,14 +108,14 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				required="true" requiredMessage="Ataque: valor obrigatório">
 					<f:validateLongRange minimum="1"/>
 				</p:inputText>
-				<p:outputLabel value="Ataque Especial"/>
-				<p:inputText id="AtaqueEspecial" size="4" maxlength="3" value="#{pokemonBean.pokemon.ataque_e}"
-				required="true" requiredMessage="Ataque Especial: valor obrigatório">
-					<f:validateLongRange minimum="1"/>
-				</p:inputText>
 				<p:outputLabel value="Defesa"/>
 				<p:inputText id="Defesa" size="4" maxlength="3" value="#{pokemonBean.pokemon.defesa}"
 				required="true" requiredMessage="Defesa: valor obrigatório">
+					<f:validateLongRange minimum="1"/>
+				</p:inputText>
+				<p:outputLabel value="Ataque Especial"/>
+				<p:inputText id="AtaqueEspecial" size="4" maxlength="3" value="#{pokemonBean.pokemon.ataque_e}"
+				required="true" requiredMessage="Ataque Especial: valor obrigatório">
 					<f:validateLongRange minimum="1"/>
 				</p:inputText>
 				<p:outputLabel value="Defesa Especial"/>

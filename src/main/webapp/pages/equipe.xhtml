@@ -11,112 +11,41 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 <h:body>
 	<p:growl id="msg"/>
 	<h:form id="formTab">
-	<p:commandButton value="Novo" actionListener="#{equipeBean.novo}" oncomplete="PF('teamTable').show();" update=":formCad:telaCad :msg"/>
-		<p:panel header="Equipe" widgetVar="teamTable" visible="false">
-			<p:dataGrid emptyMessage="Sem registros" paginator="true"
-			value="#{equipeBean.equipes}" var="equipe" id="table" >
-				<f:facet name="header">
-					
-				</f:facet>
-				<p:panel>
-					<p:panelGrid headerText="Pokémon 1">
-						<h:outputText value="#{equipe.pokemon1.pokemon.nome}" />
+	<p:commandButton value="Adicionar Pokémon" actionListener="#{especimeBean.novo}" oncomplete="PF('adicionaPoke').show();" update=":formCad:telaCad :msg"/>
+		<p:panel header="Equipe" widgetVar="teamTable">
+			<p:dataGrid emptyMessage="Sem registros"
+			value="#{especimeBean.especimes}" var="poke" id="table"
+			columns="6" rows="6">
+					<p:panelGrid headerText="Pokémon" columns="1">
+					<p:graphicImage value="#{imageBean.img}" width="160" cache="false">
+						<f:param name="parCodigo" value="#{poke.pokemon.codigo}"/>
+					</p:graphicImage>
+						<h:outputText value="#{poke.apelidoOuNome}" />
 					</p:panelGrid>
-				</p:panel>
-				<p:panel>
-					<p:panelGrid headerText="Pokémon 2">
-						<h:outputText value="#{equipe.pokemon2.pokemon.nome}" />
-					</p:panelGrid>
-				</p:panel>
-				<p:panel>
-					<p:panelGrid headerText="Pokémon 3">
-						<h:outputText value="#{equipe.pokemon3.pokemon.nome}" />
-					</p:panelGrid>
-				</p:panel>
-				<p:panel>
-					<p:panelGrid headerText="Pokémon 4">
-						<h:outputText value="#{equipe.pokemon4.pokemon.nome}" />
-					</p:panelGrid>
-				</p:panel>
-				<p:panel>
-					<p:panelGrid headerText="Pokémon 5">
-						<h:outputText value="#{equipe.pokemon5.pokemon.nome}" />
-					</p:panelGrid>
-				</p:panel>
-				<p:panel>
-					<p:panelGrid headerText="Pokémon 6">
-						<h:outputText value="#{equipe.pokemon6.pokemon.nome}" />
-					</p:panelGrid>
-				</p:panel>
-				<p:column headerText="Opções">
-					<p:commandButton icon="ui-icon-trash" actionListener="#{equipeBean.excluir}"
-					update=":msg :formTab:table">
-						<p:confirm header="Confirmação" 
-						message="Excluir esse Equipe?" icon="ui-icon-alert" />
-						<f:attribute name="equipeExcluir" value="#{equipe}"/>
-					</p:commandButton>
-					
-					<p:commandButton icon="ui-icon-pencil" oncomplete="PF('equipesDialog').show();"
-					actionListener="#{equipeBean.alterar}" update=":formCad:telaCad :msg">
-						<f:attribute name="equipeAlterar" value="#{equipe}"/>
-					</p:commandButton>
-					
-					<p:commandButton value="Batalha" actionListener='#{batalhaBean.novo}'
-					 oncomplete="PF('batalhaDialog').show();" update=":formCad:telaCad :msg">
-						 <f:attribute name="equipeAtual" value="#{equipe}"/>
-					</p:commandButton>
-				</p:column>
 			</p:dataGrid>
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
     		</p:confirmDialog>
 		</p:panel>
+		<p:panel>
+			<p:commandButton value="Batalha" actionListener='#{batalhaBean.novo}'
+			 oncomplete="PF('batalhaDialog').show();" update=":formCad:telaCad :msg">
+				 <f:attribute name="equipeAtual" value="#{equipe}"/>
+			</p:commandButton>
+		</p:panel>
 	</h:form>
 	
-	<p:dialog header="Equipes - Cadastro" widgetVar="equipesDialog"
+	<p:dialog header="Adicionar Pokémon à Equipe" widgetVar="adicionaPoke"
 	resizable="false" draggable="false" modal="true" closable="false">
 		<h:form id="formCad">
 			<h:panelGrid columns="2" id="telaCad">
-				<p:outputLabel value="1º Pokémon"/>
-				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon1}" 
-				required="true" requiredMessage="1º Pokémon: Obrigatório"
+				<p:outputLabel value="Apelido"/>
+				<p:inputText size="20" maxlength="100" value="#{especimeBean.especime.apelido}"/>
+				<p:outputLabel value="Pokémon"/>
+				<p:selectOneMenu filter="true" value="#{especimeBean.especime.pokemon}" 
+				required="true" requiredMessage="Espécie de Pokémon: Obrigatória"
 				converter="omnifaces.SelectItemsConverter">
-					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
-					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
-					itemLabel="#{poke.nome}"
-					itemValue="#{poke}"/>
-				</p:selectOneMenu>
-				<p:outputLabel value="2º Pokémon"/>
-				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon2}" converter="omnifaces.SelectItemsConverter">
-					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
-					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
-					itemLabel="#{poke.nome}"
-					itemValue="#{poke}"/>
-				</p:selectOneMenu>
-				<p:outputLabel value="3º Pokémon"/>
-				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon3}" converter="omnifaces.SelectItemsConverter">
-					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
-					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
-					itemLabel="#{poke.nome}"
-					itemValue="#{poke}"/>
-				</p:selectOneMenu>
-				<p:outputLabel value="4º Pokémon"/>
-				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon4}" converter="omnifaces.SelectItemsConverter">
-					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
-					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
-					itemLabel="#{poke.nome}"
-					itemValue="#{poke}"/>
-				</p:selectOneMenu>
-				<p:outputLabel value="5º Pokémon"/>
-				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon5}" converter="omnifaces.SelectItemsConverter">
-					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
-					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
-					itemLabel="#{poke.nome}"
-					itemValue="#{poke}"/>
-				</p:selectOneMenu>
-				<p:outputLabel value="6º Pokémon"/>
-				<p:selectOneMenu filter="true" value="#{equipeBean.equipe.pokemon6}" converter="omnifaces.SelectItemsConverter">
 					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
 					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
 					itemLabel="#{poke.nome}"
@@ -124,11 +53,12 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				</p:selectOneMenu>
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="formTab">
-				<p:commandButton value="Salvar" actionListener="#{equipeBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
-				<p:commandButton value="Fechar" oncomplete="PF('equipesDialog').hide()"/>
+				<p:commandButton value="Salvar" actionListener="#{especimeBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
+				<p:commandButton value="Fechar" oncomplete="PF('adicionaPoke').hide()"/>
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
+
 	<p:dialog header="Escolher Oponentes" widgetVar="batalhaDialog"
 	resizable="false" draggable="false" modal="true" closable="false">
 		<h:form id="batalhaCad">

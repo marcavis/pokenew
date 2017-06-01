@@ -73,6 +73,10 @@ public class EspecimeBean implements Serializable{
 	public void salvar() {
 		try {
 			EspecimeDao dao = new EspecimeDao();
+			if(dao.listarTodos().size() >= 6) {
+				Messages.addGlobalError("Equipe já possui o número máximo de Pokémons");
+				return;
+			}
 			dao.merge(especime);
 			Messages.addGlobalInfo(especime.getApelido() + " adicionado(a) à equipe");
 			novo();

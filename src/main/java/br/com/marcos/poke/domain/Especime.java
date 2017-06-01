@@ -12,7 +12,7 @@ public class Especime extends GenericDomain{
 	@JoinColumn(nullable=false)
 	private Pokemon pokemon;
 	
-	@Column(length=20, nullable=false)
+	@Column(length=20)
 	private String apelido;
 	
 	public Pokemon getPokemon() {
@@ -23,11 +23,16 @@ public class Especime extends GenericDomain{
 		this.pokemon = pokemon;
 	}
 	
-	public String getApelido() {
-		if(apelido != null)
-			return apelido;
-		else
+	public String getApelidoOuNome() {
+		System.out.println(getApelido());
+		if(getApelido().length() == 0)
 			return pokemon.getNome();
+		else
+			return getApelido();
+	}
+	
+	public String getApelido() {
+		return apelido;
 	}
 	
 	public void setApelido(String apelido) {

@@ -1,5 +1,6 @@
 package br.com.marcos.poke.bean;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -104,6 +105,9 @@ public class PokemonBean implements Serializable{
 			Pokemon pokemonNovo = dao.merge(pokemon);
 			
 			Path origem = Paths.get(pokemon.getCaminhoImg());
+			File diretorio = new File(Settings.getCaminho() + "img/poke/");
+			if(! diretorio.exists())
+				diretorio.mkdir();
 			Path destino = Paths.get(Settings.getCaminho() + "img/poke/" + pokemonNovo.getCodigo() + ".png");
 			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
 			
