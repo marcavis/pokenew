@@ -1,7 +1,6 @@
 package br.com.marcos.poke.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
