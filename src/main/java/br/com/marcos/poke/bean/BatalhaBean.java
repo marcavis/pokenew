@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import br.com.marcos.poke.domain.Batalha;
+import br.com.marcos.poke.domain.Equipe;
+import br.com.marcos.poke.domain.Pokemon;
 
 @ManagedBean
 @ViewScoped
@@ -13,9 +16,11 @@ import br.com.marcos.poke.domain.Batalha;
 public class BatalhaBean implements Serializable {
 	private Batalha batalha;
 	
-	public void novo() {
+	public void novo(ActionEvent evento) {
 		batalha = new Batalha();
 		System.out.println("COMECOU");
+		Equipe equipeAtual = (Equipe) evento.getComponent().getAttributes().get("equipeAtual");
+		System.out.println(equipeAtual.getTreinador());
 	}
 
 	public Batalha getBatalha() {

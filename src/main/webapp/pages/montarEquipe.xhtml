@@ -9,17 +9,17 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 <ui:define name="telas">
 	<h:form id="formTab">
 	<p:commandButton value="Adicionar Pokémon" actionListener="#{especimeBean.novo}" oncomplete="PF('adicionaPoke').show();" update=":formCad:telaCad :msg"/>
-		<p:panel header="Equipe" widgetVar="teamTable">
-			<f:facet name="equipe">
-                <p:selectOneMenu filter="false" value="#{equipe}"
-				required="true" requiredMessage="Obrigatório escolher uma equipe"
-				converter="omnifaces.SelectItemsConverter">
-					<f:selectItem itemLabel="Selecione uma equipe" itemValue=""/>
-					<f:selectItems value="#{equipeBean.equipes}" var="equipe"
-					itemLabel="#{equipe.treinador}"
-					itemValue="#{equipe}"/>
-				</p:selectOneMenu>
-	        </f:facet>
+		<p:panel header="Equipe" name="equipe">
+        	<p:selectOneMenu filter="false" value="#{equipe}" 
+			required="true" requiredMessage="Obrigatório escolher uma equipe"
+			converter="omnifaces.SelectItemsConverter">
+				<f:selectItem itemLabel="Selecione uma equipe" itemValue=""/>
+				<f:selectItems value="#{equipeBean.equipes}" var="equipe"
+				itemLabel="#{equipe.treinador}"
+				itemValue="#{equipe}"/>
+			</p:selectOneMenu>
+		</p:panel>
+		<p:panel header="Pokémons da Equipe" widgetVar="teamTable">
 			<p:dataGrid emptyMessage="Sem registros"
 			value="#{especimeBean.especimes}" var="poke" id="table"
 			columns="6" rows="6">
