@@ -2,6 +2,7 @@ package br.com.marcos.poke.domain;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import br.com.marcos.poke.dao.EspecimeDao;
@@ -10,6 +11,9 @@ import br.com.marcos.poke.dao.EspecimeDao;
 @Entity
 public class Equipe extends GenericDomain{
 	
+	@Column(length=20, nullable=false)
+	private String treinador;
+	
 	public List<Especime> getPokemons() {
 		EspecimeDao dao = new EspecimeDao();
 		for (Especime eps : dao.listarTodos()) {
@@ -17,4 +21,14 @@ public class Equipe extends GenericDomain{
 		}
 		return dao.listarTodos();
 	}
+
+	public String getTreinador() {
+		return treinador;
+	}
+
+	public void setTreinador(String treinador) {
+		this.treinador = treinador;
+	}
+	
+	
 }

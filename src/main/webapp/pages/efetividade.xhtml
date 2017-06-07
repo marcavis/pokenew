@@ -10,7 +10,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 	<h:form id="formTab">
 		<p:panel header="Efetividades">
 			<p:dataTable emptyMessage="Sem registros" paginator="true"
-			value="#{efetividadeBean.efetividades}" var="efetividade" id="table">
+			value="#{efetividadeBean.efetividades}" var="efetividade" id="table" widgetVar="efetividadeTable">
 				<f:facet name="header">
 					<p:commandButton value="Novo" actionListener="#{efetividadeBean.novo}" oncomplete="PF('efetividadeDialog').show();" update=":formCad:telaCad :msg"/>
 				</f:facet>
@@ -20,7 +20,18 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				<p:column headerText="Tipo do Defensor" sortBy="#{efetividade.tipo2.nome}" filterBy="#{efetividade.tipo2.nome}">
 					<h:outputText value="#{efetividade.tipo2.nome}" />
 				</p:column>
-				<p:column headerText="Efetividade" sortBy="#{efetividade.efetividade}" filterBy="#{efetividade.efetividade}">
+				<p:column headerText="Efetividade" sortBy="#{efetividade.efetividade}" 
+				filterBy="#{efetividade.efetividade}"  filterMatchMode="equals">
+					<f:facet name="filter">
+		                <p:selectOneButton onchange="PF('efetividadeTable').filter()">
+		                    <f:converter converterId="javax.faces.Integer" />
+		                    <f:selectItem itemLabel="Todas" itemValue="" />
+		                    <f:selectItem itemLabel="0%" itemValue="0" />
+		                    <f:selectItem itemLabel="50%" itemValue="50" />
+		                    <f:selectItem itemLabel="100%" itemValue="100" />
+		                    <f:selectItem itemLabel="200%" itemValue="200" />
+		                </p:selectOneButton>
+		            </f:facet>
 					<h:outputText value="#{efetividade.efetividade}" />
 					<h:outputText value="%" />
 				</p:column>
