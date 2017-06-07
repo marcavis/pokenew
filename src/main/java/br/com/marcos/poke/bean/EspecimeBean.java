@@ -11,6 +11,7 @@ import javax.faces.event.ActionEvent;
 import org.omnifaces.util.Messages;
 
 import br.com.marcos.poke.dao.EspecimeDao;
+import br.com.marcos.poke.domain.Equipe;
 import br.com.marcos.poke.domain.Especime;
 
 @ManagedBean
@@ -19,6 +20,7 @@ import br.com.marcos.poke.domain.Especime;
 public class EspecimeBean implements Serializable{
 	private Especime especime;
 	private List<Especime> especimes;
+	private Equipe equipeSelecionada;
 	
 	public void excluir(ActionEvent evento) {
 		try {
@@ -85,5 +87,15 @@ public class EspecimeBean implements Serializable{
 			Messages.addGlobalError("Erro ao cadastrar Pokémon na equipe");
 			e.printStackTrace();
 		}
+	}
+
+	public Equipe getEquipeSelecionada() {
+		System.out.println("fjasiofjas");
+		return equipeSelecionada;
+	}
+
+	public void setEquipeSelecionada(Equipe equipeSelecionada) {
+		System.out.println("fj3333asiofjas");
+		this.equipeSelecionada = equipeSelecionada;
 	}
 }

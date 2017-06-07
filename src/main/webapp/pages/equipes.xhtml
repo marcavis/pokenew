@@ -14,7 +14,12 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				<f:facet name="header">
 					<p:commandButton value="Novo" actionListener="#{equipeBean.novo}" oncomplete="PF('equipesDialog').show();" update=":formCad:telaCad :msg"/>
 				</f:facet>
-				<p:column headerText="Nome" sortBy="#{equipe.treinador}" filterBy="#{equipe.treinador}">
+				<p:column headerText="Imagem" width="120">
+					<p:graphicImage value="#{equipeImageBean.img}" width="96" cache="false">
+						<f:param name="parCodigo" value="#{equipe.codigo}"/>
+					</p:graphicImage>
+				</p:column>
+				<p:column headerText="Treinador" sortBy="#{equipe.treinador}" filterBy="#{equipe.treinador}">
 					<h:outputText value="#{equipe.treinador}" />
 				</p:column>
 				<p:column headerText="Opções">
@@ -42,7 +47,9 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 	resizable="false" draggable="false" modal="true" closable="false">
 		<h:form id="formCad">
 			<h:panelGrid columns="2" id="telaCad">
-				<p:outputLabel value="Nome"/>
+				<p:outputLabel value="Retrato"/>
+				<p:fileUpload auto="true" id="fileUp" mode="advanced" fileUploadListener="#{equipeBean.upload}"/>
+				<p:outputLabel value="Treinador"/>
 				<p:inputText size="25" maxlength="20" value="#{equipeBean.equipe.treinador}"
 				required="true" requiredMessage="Nome do Treinador é obrigatório"/>
 				

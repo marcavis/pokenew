@@ -36,15 +36,12 @@ public class PokemonBean implements Serializable{
 	private List<Tipo> tipos;
 	
 	public void upload(FileUploadEvent evento) {
-		
 		try {
 			UploadedFile arquivo = evento.getFile();
 			Path caminho = Files.createTempFile(null, null);
 			Files.copy(arquivo.getInputstream(), caminho, StandardCopyOption.REPLACE_EXISTING);
 			pokemon.setCaminhoImg(caminho.toString());
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

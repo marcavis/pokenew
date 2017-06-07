@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import br.com.marcos.poke.dao.EspecimeDao;
 
@@ -13,6 +14,9 @@ public class Equipe extends GenericDomain{
 	
 	@Column(length=20, nullable=false)
 	private String treinador;
+	
+	@Transient
+	private String caminhoImg;
 	
 	public List<Especime> getPokemons() {
 		EspecimeDao dao = new EspecimeDao();
@@ -29,6 +33,12 @@ public class Equipe extends GenericDomain{
 	public void setTreinador(String treinador) {
 		this.treinador = treinador;
 	}
-	
-	
+
+	public String getCaminhoImg() {
+		return caminhoImg;
+	}
+
+	public void setCaminhoImg(String caminhoImg) {
+		this.caminhoImg = caminhoImg;
+	}
 }
