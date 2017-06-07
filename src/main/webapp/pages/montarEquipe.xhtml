@@ -8,48 +8,106 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
       template="/templates/principal.xhtml">
 <ui:define name="telas">
 	<h:form id="formTab">
-		<p:panel header="Equipes">
-			<p:dataTable emptyMessage="Sem registros" paginator="true"
-			value="#{equipeBean.equipes}" var="equipe" id="table">
-				<f:facet name="header">
-					<p:commandButton value="Novo" actionListener="#{equipeBean.novo}" oncomplete="PF('equipesDialog').show();" update=":formCad:telaCad :msg"/>
-				</f:facet>
-				<p:column headerText="Nome" sortBy="#{equipe.treinador}" filterBy="#{equipe.treinador}">
-					<h:outputText value="#{equipe.treinador}" />
-				</p:column>
-				<p:column headerText="Opções">
-					<p:commandButton icon="ui-icon-trash" actionListener="#{equipeBean.excluir}"
-					update=":msg :formTab:table">
-						<p:confirm header="Confirmação" 
-						message="Excluir esse equipe?" icon="ui-icon-alert" />
-						<f:attribute name="equipeExcluir" value="#{equipe}"/>
-					</p:commandButton>
-					
-					<p:commandButton icon="ui-icon-pencil" oncomplete="PF('equipesDialog').show();"
-					actionListener="#{equipeBean.alterar}" update=":formCad:telaCad :msg">
-						<f:attribute name="equipeAlterar" value="#{equipe}"/>
-					</p:commandButton>
-				</p:column>
-			</p:dataTable>
+	<p:commandButton value="Adicionar Pokémon" actionListener="#{especimeBean.novo}" oncomplete="PF('adicionaPoke').show();" update=":formCad:telaCad :msg"/>
+		<p:panel header="Equipe" widgetVar="teamTable">
+			<f:facet name="equipe">
+                <p:selectOneMenu filter="false" value="#{equipe}"
+				required="true" requiredMessage="Obrigatório escolher uma equipe"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione uma equipe" itemValue=""/>
+					<f:selectItems value="#{equipeBean.equipes}" var="equipe"
+					itemLabel="#{equipe.treinador}"
+					itemValue="#{equipe}"/>
+				</p:selectOneMenu>
+	        </f:facet>
+			<p:dataGrid emptyMessage="Sem registros"
+			value="#{especimeBean.especimes}" var="poke" id="table"
+			columns="6" rows="6">
+					<p:panelGrid headerText="Pokémon" columns="1">
+					<p:graphicImage value="#{imageBean.img}" width="160" cache="false">
+						<f:param name="parCodigo" value="#{poke.pokemon.codigo}"/>
+					</p:graphicImage>
+						<h:outputText value="#{poke.apelidoOuNome}" />
+					</p:panelGrid>
+			</p:dataGrid>
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
     		</p:confirmDialog>
 		</p:panel>
+		<p:panel>
+			<p:commandButton value="Batalha" actionListener='#{batalhaBean.novo}'
+			 oncomplete="PF('batalhaDialog').show();" update=":formCad:telaCad :msg">
+				 <f:attribute name="equipeAtual" value="#{equipe}"/>
+			</p:commandButton>
+		</p:panel>
 	</h:form>
 	
-	<p:dialog header="equipes - Cadastro" widgetVar="equipesDialog"
+	<p:dialog header="Adicionar Pokémon à Equipe" widgetVar="adicionaPoke"
 	resizable="false" draggable="false" modal="true" closable="false">
 		<h:form id="formCad">
 			<h:panelGrid columns="2" id="telaCad">
-				<p:outputLabel value="Nome"/>
-				<p:inputText size="25" maxlength="20" value="#{equipeBean.equipe.treinador}"
-				required="true" requiredMessage="Nome do Treinador é obrigatório"/>
-				
+				<p:outputLabel value="Apelido"/>
+				<p:inputText size="20" maxlength="100" value="#{especimeBean.especime.apelido}"/>
+				<p:outputLabel value="Pokémon"/>
+				<p:selectOneMenu filter="true" value="#{especimeBean.especime.pokemon}" 
+				required="true" requiredMessage="Espécie de Pokémon: Obrigatória"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
+					itemLabel="#{poke.nome}"
+					itemValue="#{poke}"/>
+				</p:selectOneMenu>
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="formTab">
-				<p:commandButton value="Salvar" actionListener="#{equipeBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
-				<p:commandButton value="Fechar" oncomplete="PF('equipesDialog').hide()"/>
+				<p:commandButton value="Salvar" actionListener="#{especimeBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
+				<p:commandButton value="Fechar" oncomplete="PF('adicionaPoke').hide()"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+	<p:dialog header="Escolher Oponentes" widgetVar="batalhaDialog"
+	resizable="false" draggable="false" modal="true" closable="false">
+		<h:form id="batalhaCad">
+			<h:panelGrid columns="2" id="telaBat">
+				<p:outputLabel value="Seu Pokémon"/>
+				<p:selectOneMenu filter="true" value="#{batalhaBean.batalha.pokemon1}" 
+				required="true" requiredMessage="1º Pokémon: Obrigatório"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon da sua equipe" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
+					itemLabel="#{poke.nome}"
+					itemValue="#{poke}"/>
+				</p:selectOneMenu>
+				<p:outputLabel value="Pokémon adversário"/>
+				<p:selectOneMenu filter="true" value="#{batalhaBean.batalha.pokemon2}"
+				required="true" requiredMessage="2º Pokémon: Obrigatório"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
+					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
+					itemLabel="#{poke.nome}"
+					itemValue="#{poke}"/>
+				</p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="formTab">
+				<p:commandButton value="Iniciar" actionListener="#{batalhaBean.batalha.lutar}"
+				oncomplete="PF('batalhaDialog').hide();PF('resultadoDialog').show()" update=":msg :batalhaCad:telaBat :resultadoCad:resultado :formTab:table"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:dialog header="Batalha" widgetVar="resultadoDialog"
+	resizable="false" draggable="false" modal="true" closable="false">
+		<h:form id="resultadoCad">
+			<h:panelGrid columns="1" id="resultado">
+				<p:dataList value="#{batalhaBean.batalha.mensagens}" var="msg">
+			        <f:facet name="header">
+			            Resultado
+			        </f:facet>
+			        #{msg}
+			    </p:dataList>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="formTab">
+				<p:commandButton value="Fechar" oncomplete="PF('resultadoDialog').hide()"/>
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
