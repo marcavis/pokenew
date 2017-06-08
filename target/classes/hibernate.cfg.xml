@@ -30,7 +30,7 @@
 
 		<!-- Cria as tabelas do banco de dados -->
 		<!--  mude pra validate no momento do deploy -->
-		<property name="hbm2ddl.auto">create</property>
+		<property name="hbm2ddl.auto">validate</property>
 		
 		<!-- Mapeamento de entidades -->
 		<mapping class="br.com.marcos.poke.domain.Pokemon"/>

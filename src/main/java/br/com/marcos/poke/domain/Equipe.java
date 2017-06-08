@@ -1,5 +1,6 @@
 package br.com.marcos.poke.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,10 +21,14 @@ public class Equipe extends GenericDomain{
 	
 	public List<Especime> getPokemons() {
 		EspecimeDao dao = new EspecimeDao();
-		for (Especime eps : dao.listarTodos()) {
-			System.out.println(eps.getPokemon().getNome());
+		List<Especime> especimes = dao.listarTodos();
+		List<Especime> destaEquipe = new ArrayList<Especime>();
+		for (Especime ep : especimes) {
+			if(ep.getEquipe().getCodigo() == getCodigo())
+				destaEquipe.add(ep);
 		}
-		return dao.listarTodos();
+		System.out.println(getTreinador());
+		return destaEquipe;
 	}
 
 	public String getTreinador() {

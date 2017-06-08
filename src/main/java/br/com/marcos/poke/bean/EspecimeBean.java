@@ -10,9 +10,11 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
+import br.com.marcos.poke.dao.EquipeDao;
 import br.com.marcos.poke.dao.EspecimeDao;
 import br.com.marcos.poke.domain.Equipe;
 import br.com.marcos.poke.domain.Especime;
+import br.com.marcos.poke.domain.Rota;
 
 @ManagedBean
 @ViewScoped
@@ -54,6 +56,7 @@ public class EspecimeBean implements Serializable{
 	
 	public void novo() {
 		especime = new Especime();
+		especime.setEquipe(getEquipeSelecionada());
 	}
 
 	public Especime getEspecime() {
@@ -75,7 +78,8 @@ public class EspecimeBean implements Serializable{
 	public void salvar() {
 		try {
 			EspecimeDao dao = new EspecimeDao();
-			if(dao.listarTodos().size() >= 6) {
+			//resolver isso
+			if(dao.listarTodos("equipe",getEspecime().getEquipe().getCodigo()).size() >= 6) {
 				Messages.addGlobalError("Equipe já possui o número máximo de Pokémons");
 				return;
 			}
@@ -90,12 +94,14 @@ public class EspecimeBean implements Serializable{
 	}
 
 	public Equipe getEquipeSelecionada() {
-		System.out.println("fjasiofjas");
+		if(equipeSelecionada == null) {
+			EquipeDao dao = new EquipeDao();
+			return dao.listarTodos().get(0);
+		}
 		return equipeSelecionada;
 	}
 
 	public void setEquipeSelecionada(Equipe equipeSelecionada) {
-		System.out.println("fj3333asiofjas");
 		this.equipeSelecionada = equipeSelecionada;
 	}
 }
