@@ -33,8 +33,6 @@
 		<property name="hbm2ddl.auto">create</property>
 		
 		<!-- Mapeamento de entidades -->
-		<mapping class="br.com.marcos.poke.domain.Cidade"/>
-		<mapping class="br.com.marcos.poke.domain.Estado"/>
 		<mapping class="br.com.marcos.poke.domain.Pokemon"/>
 		<mapping class="br.com.marcos.poke.domain.Tipo"/>
 		<mapping class="br.com.marcos.poke.domain.Rota"/>
