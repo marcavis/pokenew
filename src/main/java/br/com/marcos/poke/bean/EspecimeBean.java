@@ -8,13 +8,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.omnifaces.util.Messages;
 
 import br.com.marcos.poke.dao.EquipeDao;
 import br.com.marcos.poke.dao.EspecimeDao;
 import br.com.marcos.poke.domain.Equipe;
 import br.com.marcos.poke.domain.Especime;
-import br.com.marcos.poke.domain.Rota;
 
 @ManagedBean
 @ViewScoped
@@ -78,13 +80,16 @@ public class EspecimeBean implements Serializable{
 	public void salvar() {
 		try {
 			EspecimeDao dao = new EspecimeDao();
-			//resolver isso
-			if(dao.listarTodos("equipe",getEspecime().getEquipe().getCodigo()).size() >= 6) {
+			if(especime.getEquipe() == null) {
+				Messages.addGlobalError("Pokémon deve pertencer a uma equipe. Cadastre uma equipe primeiro.");
+				return;
+			}
+			if(dao.listarTodos("equipe.codigo", especime.getEquipe().getCodigo()).size() >= 6) {
 				Messages.addGlobalError("Equipe já possui o número máximo de Pokémons");
 				return;
 			}
 			dao.merge(especime);
-			Messages.addGlobalInfo(especime.getApelido() + " adicionado(a) à equipe");
+			Messages.addGlobalInfo(especime.getApelidoOuNome() + " adicionado(a) à equipe");
 			novo();
 			listar();
 		} catch (Exception e) {
@@ -96,7 +101,11 @@ public class EspecimeBean implements Serializable{
 	public Equipe getEquipeSelecionada() {
 		if(equipeSelecionada == null) {
 			EquipeDao dao = new EquipeDao();
-			return dao.listarTodos().get(0);
+			List<Equipe> equipes = dao.listarTodos();
+			if(equipes.isEmpty())
+				return null;
+			else
+				return dao.listarTodos().get(0);
 		}
 		return equipeSelecionada;
 	}

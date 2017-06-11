@@ -27,7 +27,7 @@ public class Equipe extends GenericDomain{
 			if(ep.getEquipe().getCodigo() == getCodigo())
 				destaEquipe.add(ep);
 		}
-		System.out.println(getTreinador());
+		//System.out.println(getTreinador());
 		return destaEquipe;
 	}
 

@@ -77,7 +77,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				<p:outputLabel value="Imagem"/>
 				<p:fileUpload auto="true" id="fileUp" mode="advanced" fileUploadListener="#{pokemonBean.upload}"/>
 				<p:outputLabel value="Nome"/>
-				<p:inputText size="20" maxlength="100" value="#{pokemonBean.pokemon.nome}"
+				<p:inputText size="18" maxlength="12" value="#{pokemonBean.pokemon.nome}"
 				required="true" requiredMessage="Nome: Obrigatório"/>
 				<p:outputLabel value="Tipo Principal"/>
 				<p:selectOneMenu filter="true" value="#{pokemonBean.pokemon.tipo1}" 
