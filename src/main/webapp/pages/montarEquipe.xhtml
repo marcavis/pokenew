@@ -98,6 +98,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 			<h:panelGrid columns="2" id="formTab">
 				<p:commandButton value="Iniciar" actionListener="#{batalhaBean.batalha.lutar}"
 				oncomplete="PF('batalhaDialog').hide();PF('resultadoDialog').show()" update=":msg :batalhaCad:telaBat :resultadoCad:resultado :formTab:table"/>
+				<p:commandButton value="Fechar" oncomplete="PF('batalhaDialog').hide()"/>
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
