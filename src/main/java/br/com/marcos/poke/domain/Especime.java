@@ -34,6 +34,13 @@ public class Especime extends GenericDomain{
 			return getApelido();
 	}
 	
+	public String getNomeOuApelidoENome() {
+		if(getApelido().length() == 0)
+			return pokemon.getNome();
+		else
+			return getApelido() + " (" + pokemon.getNome() + ")";
+	}
+	
 	public String getApelido() {
 		return apelido;
 	}

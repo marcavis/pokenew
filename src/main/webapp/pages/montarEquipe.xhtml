@@ -12,7 +12,6 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 			<p:ring id="ring" value="#{equipeBean.equipes}" var="equipe" styleClass="image-ring" easing="easeInOutBack">
 				<p:commandLink update=":formTab:teamTable">
 					<f:setPropertyActionListener value="#{equipe}" target="#{especimeBean.equipeSelecionada}" />
-					
 					<p:graphicImage value="#{equipeImageBean.img}" width="96" cache="false">
 						<f:param name="parCodigo" value="#{equipe.codigo}"/>
 					</p:graphicImage>
@@ -81,8 +80,8 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				required="true" requiredMessage="1º Pokémon: Obrigatório"
 				converter="omnifaces.SelectItemsConverter">
 					<f:selectItem itemLabel="Selecione um pokémon da sua equipe" itemValue=""/>
-					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
-					itemLabel="#{poke.nome}"
+					<f:selectItems value="#{especimeBean.equipeSelecionada.pokemons}" var="poke"
+					itemLabel="#{poke.nomeOuApelidoENome}"
 					itemValue="#{poke}"/>
 				</p:selectOneMenu>
 				<p:outputLabel value="Pokémon adversário"/>
@@ -90,8 +89,8 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				required="true" requiredMessage="2º Pokémon: Obrigatório"
 				converter="omnifaces.SelectItemsConverter">
 					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
-					<f:selectItems value="#{pokemonBean.pokemons}" var="poke"
-					itemLabel="#{poke.nome}"
+					<f:selectItems value="#{especimeBean.equipeSelecionada.pokemons}" var="poke"
+					itemLabel="#{poke.nomeOuApelidoENome}"
 					itemValue="#{poke}"/>
 				</p:selectOneMenu>
 			</h:panelGrid>

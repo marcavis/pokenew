@@ -21,26 +21,48 @@ import br.com.marcos.poke.util.Settings;
 @RequestScoped
 public class ImageBean {
 	
-	 public StreamedContent getImg() throws IOException {
+	public StreamedContent getImg() throws IOException {
 		StreamedContent img = null;
-        FacesContext context = FacesContext.getCurrentInstance();
-
-        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-            return new DefaultStreamedContent();
-        }else {
-            String imageId = context.getExternalContext().getRequestParameterMap().get("parCodigo");
-            File f = new File(Settings.getCaminho() + "img/poke/" + imageId+".png");
+		FacesContext context = FacesContext.getCurrentInstance();
+	
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+			return new DefaultStreamedContent();
+		} else {
+			String imageId = context.getExternalContext().getRequestParameterMap().get("parCodigo");
+			File f = new File(Settings.getCaminho() + "img/poke/" + imageId+".png");
 			if(f.isFile()){
 				Path path = Paths.get(f.getAbsolutePath());
 				InputStream stream = Files.newInputStream(path);
 				img = new DefaultStreamedContent(stream);
-			}else{
+			} else {
 				Path path = Paths.get(Settings.getCaminho() + "img/default/unknown.png");
 				InputStream stream = Files.newInputStream(path);
 				img = new DefaultStreamedContent(stream);
 			}
-            return img;
-        }
-    }
-
+			return img;
+		}
+	}
+	
+	//fazer algo pra inverter imagens - seria aqui?
+	public StreamedContent getImg(int flipped) throws IOException {
+		StreamedContent img = null;
+		FacesContext context = FacesContext.getCurrentInstance();
+	
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+			return new DefaultStreamedContent();
+		} else {
+			String imageId = context.getExternalContext().getRequestParameterMap().get("parCodigo");
+			File f = new File(Settings.getCaminho() + "img/poke/" + imageId+".png");
+			if(f.isFile()){
+				Path path = Paths.get(f.getAbsolutePath());
+				InputStream stream = Files.newInputStream(path);
+				img = new DefaultStreamedContent(stream);
+			} else {
+				Path path = Paths.get(Settings.getCaminho() + "img/default/unknown.png");
+				InputStream stream = Files.newInputStream(path);
+				img = new DefaultStreamedContent(stream);
+			}
+			return img;
+		}
+	}
 }
