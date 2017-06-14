@@ -10,7 +10,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 	<h:form id="formTab">
 		<p:panel>
 			<p:ring id="ring" value="#{equipeBean.equipes}" var="equipe" styleClass="image-ring" easing="easeInOutBack">
-				<p:commandLink update=":formTab:teamTable">
+				<p:commandLink update=":formTab:teamTable :batalhaCad:telaBat">
 					<f:setPropertyActionListener value="#{equipe}" target="#{especimeBean.equipeSelecionada}" />
 					<p:graphicImage value="#{equipeImageBean.img}" width="96" cache="false">
 						<f:param name="parCodigo" value="#{equipe.codigo}"/>
@@ -65,7 +65,8 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				</p:selectOneMenu>
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="formTab">
-				<p:commandButton value="Salvar" actionListener="#{especimeBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
+				<p:commandButton value="Salvar" actionListener="#{especimeBean.salvar}"
+				update=":msg :formCad:telaCad :formTab:table :batalhaCad:telaBat"/>
 				<p:commandButton value="Fechar" oncomplete="PF('adicionaPoke').hide()"/>
 			</h:panelGrid>
 		</h:form>

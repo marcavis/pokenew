@@ -33,6 +33,7 @@
 		<property name="hbm2ddl.auto">validate</property>
 		
 		<!-- Mapeamento de entidades -->
+		<mapping class="br.com.marcos.poke.domain.Usuario"/>
 		<mapping class="br.com.marcos.poke.domain.Pokemon"/>
 		<mapping class="br.com.marcos.poke.domain.Tipo"/>
 		<mapping class="br.com.marcos.poke.domain.Rota"/>

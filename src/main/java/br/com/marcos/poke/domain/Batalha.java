@@ -2,6 +2,7 @@ package br.com.marcos.poke.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Batalha{
 	private Especime pokemon1;
@@ -18,7 +19,7 @@ public class Batalha{
 			mensagens.add(pokemon1.getApelidoOuNome() + " tem " + vida[0] + " pontos de vida.");
 			mensagens.add(pokemon2.getApelidoOuNome() + " tem " + vida[1] + " pontos de vida.");
 			dano = calculaDano(pokemon1, pokemon2);
-			mensagens.add(pokemon1.getPokemon().getNome() + " ataca " + pokemon2.getApelidoOuNome() + ", causando "
+			mensagens.add(pokemon1.getApelidoOuNome() + " ataca " + pokemon2.getApelidoOuNome() + ", causando "
 					+ dano + " pontos de dano!");
 			vida[1] -= dano;
 			if(vida[1] < 1) {
@@ -38,7 +39,10 @@ public class Batalha{
 	}
 	
 	public int calculaDano (Especime p1, Especime p2) {
-		return Math.max(2, p1.getPokemon().getAtaque()-p2.getPokemon().getDefesa());
+		double div = ((double) p1.getPokemon().getAtaque())/p2.getPokemon().getDefesa();
+		double modificador = 0.85;
+		return (int) Math.ceil((((20 * 60 * div)/50) + 2) * modificador); 
+		//return Math.max(2, p1.getPokemon().getAtaque()-p2.getPokemon().getDefesa());
 	}
 	
 	public Especime getPokemon1() {
