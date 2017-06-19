@@ -40,8 +40,10 @@ public class Batalha{
 	
 	public int calculaDano (Especime p1, Especime p2) {
 		double div = ((double) p1.getPokemon().getAtaque())/p2.getPokemon().getDefesa();
-		double modificador = 0.85;
-		return (int) Math.ceil((((20 * 60 * div)/50) + 2) * modificador); 
+		Random gerador = new Random();
+		double fatorAleatorio = 0.85 + gerador.nextDouble() * 0.15;
+		double modificador = fatorAleatorio;
+		return (int) Math.ceil((((20 * 30 * div)/50) + 2) * modificador); 
 		//return Math.max(2, p1.getPokemon().getAtaque()-p2.getPokemon().getDefesa());
 	}
 	
