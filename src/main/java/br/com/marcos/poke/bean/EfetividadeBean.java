@@ -100,7 +100,8 @@ public class EfetividadeBean implements Serializable{
 		try {
 			EfetividadeDao dao = new EfetividadeDao();
 			for (Efetividade ef : efetividades) {
-				if(ef.getTipo1().getNome().equals(efetividade.getTipo1().getNome()) &&
+				if(ef.getCodigo() != efetividade.getCodigo() && 
+						ef.getTipo1().getNome().equals(efetividade.getTipo1().getNome()) &&
 						ef.getTipo2().getNome().equals(efetividade.getTipo2().getNome())) {
 					Messages.addGlobalError("Efetividade entre esses tipos já existe!");
 					throw new Exception();
