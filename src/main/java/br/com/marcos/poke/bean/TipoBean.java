@@ -81,8 +81,5 @@ public class TipoBean implements Serializable{
 			Messages.addGlobalError("Erro ao cadastrar Tipo");
 			e.printStackTrace();
 		}
-//		FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Salvar", null);
-//		FacesContext contexto = FacesContext.getCurrentInstance();
-//		contexto.addMessage(null, fMsg);
 	}
 }

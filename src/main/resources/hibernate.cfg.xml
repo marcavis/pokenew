@@ -20,11 +20,12 @@
   <property name="show_sql">true</property>
   <!-- Cria as tabelas do banco de dados 
   mude pra validate no momento do deploy -->
-  <property name="hbm2ddl.auto">validate</property>
+  <property name="hbm2ddl.auto">create</property>
   <!-- Mapeamento de entidades -->
   <mapping class="br.com.marcos.poke.domain.Usuario"/>
   <mapping class="br.com.marcos.poke.domain.Pokemon"/>
   <mapping class="br.com.marcos.poke.domain.Tipo"/>
+  <mapping class="br.com.marcos.poke.domain.Ataque"/>
   <mapping class="br.com.marcos.poke.domain.Rota"/>
   <mapping class="br.com.marcos.poke.domain.RotaPokemon"/>
   <mapping class="br.com.marcos.poke.domain.Efetividade"/>

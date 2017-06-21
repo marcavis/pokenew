@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="/templates/principal.xhtml">
+<ui:define name="telas">
+	<h:form id="formTab">
+		<p:panel header="Ataques">
+			<p:dataTable emptyMessage="Sem registros" paginator="true"
+			value="#{ataqueBean.ataques}" var="ataque" id="table" widgetVar="ataquesTable">
+				<f:facet name="header">
+					<p:commandButton value="Novo" actionListener="#{ataqueBean.novo}" oncomplete="PF('ataquesDialog').show();" update=":formCad:telaCad :msg"/>
+				</f:facet>
+				<p:column headerText="Nome" sortBy="#{ataque.nome}" filterBy="#{ataque.nome}">
+					<h:outputText value="#{ataque.nome}" />
+				</p:column>
+				<p:column headerText="Tipo" sortBy="#{ataque.tipo.nome}" filterBy="#{ataque.tipo.nome}">
+					<h:outputText value="#{ataque.tipo.nome}" />
+				</p:column>
+				<p:column headerText="Poder" sortBy="#{ataque.poder}">
+					<h:outputText value="#{ataque.poder}" />
+				</p:column>
+				<p:column headerText="Forma de ataque" sortBy="#{ataque.especial}" 
+				filterBy="#{ataque.especial}"  filterMatchMode="equals">
+					<f:facet name="filter">
+		                <p:selectOneButton onchange="PF('ataquesTable').filter()">
+		                    <f:converter converterId="javax.faces.Boolean" />
+		                    <f:selectItem itemLabel="Todos" itemValue="" />
+		                    <f:selectItem itemLabel="Físico" itemValue="false" />
+		                    <f:selectItem itemLabel="Especial" itemValue="true" />
+		                </p:selectOneButton>
+		            </f:facet>
+					<h:outputText value="#{ataque.descricaoEspecial}" />
+				</p:column>
+				<p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-trash" actionListener="#{ataqueBean.excluir}"
+					update=":msg :formTab:table">
+						<p:confirm header="Confirmação" 
+						message="Excluir esse Ataque?" icon="ui-icon-alert" />
+						<f:attribute name="ataqueExcluir" value="#{ataque}"/>
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon-pencil" oncomplete="PF('ataquesDialog').show();"
+					actionListener="#{ataqueBean.alterar}" update=":formCad:telaCad :msg">
+						<f:attribute name="ataqueAlterar" value="#{ataque}"/>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+		</p:panel>
+	</h:form>
+	
+	<p:dialog header="Ataques - Cadastro" widgetVar="ataquesDialog"
+	resizable="false" draggable="false" modal="true" closable="false">
+		<h:form id="formCad">
+			<h:panelGrid columns="2" id="telaCad">
+				<p:outputLabel value="Nome"/>
+				<p:inputText size="15" maxlength="15" value="#{ataqueBean.ataque.nome}"
+				required="true" requiredMessage="Nome do Ataque é obrigatório"/>
+				<p:outputLabel value="Tipo"/>
+				<p:selectOneMenu filter="true" value="#{ataqueBean.ataque.tipo}" 
+				required="true" requiredMessage="Tipo: Obrigatório"
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um tipo" itemValue=""/>
+					<f:selectItems value="#{tipoBean.tipos}" var="tipo"
+					itemLabel="#{tipo.nome}"
+					itemValue="#{tipo}"/>
+				</p:selectOneMenu>
+				<p:outputLabel value="Poder"/>
+				<p:inputText id="Poder" size="4" maxlength="3" value="#{ataqueBean.ataque.poder}"
+				required="true" requiredMessage="Poder do ataque: valor obrigatório">
+					<f:validateLongRange minimum="1"/>
+				</p:inputText>
+				<h:outputText value="Forma de ataque" />
+        		<p:selectBooleanButton id="Forma" value="#{ataqueBean.ataque.especial}" onLabel="Especial" offLabel="Físico"/>
+			</h:panelGrid>
+			<h:panelGrid columns="2" id="formTab">
+				<p:commandButton value="Salvar" actionListener="#{ataqueBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
+				<p:commandButton value="Fechar" oncomplete="PF('ataquesDialog').hide()"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</ui:define>
+</ui:composition>
