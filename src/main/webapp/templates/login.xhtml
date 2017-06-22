@@ -11,6 +11,7 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <title>Login</title>
 </h:head>
 <h:body>
+	<p:growl id="msg"/>
 	<h:form id="frmLogin">
 		<p:panel header="Login">
 			<h:panelGrid columns="2">
@@ -18,7 +19,8 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 				<p:inputText maxlength="20" size="20" value="#{loginBean.login}"/>
 				<p:outputLabel value="Senha"/>
 				<p:password maxlength="20" size="20" value="#{loginBean.senha}"/>
-				<p:commandButton icon="ui-icon-unlocked" value="Entrar" action="#{loginBean.fazLogin()}" />
+				<p:commandButton icon="ui-icon-unlocked" value="Entrar" action="#{loginBean.fazLogin}" update=":msg"/>
+				<p:commandButton icon="ui-icon-plus" value="Cadastrar" action="#{loginBean.salvar}" update=":msg"/>
 			</h:panelGrid>
 		</p:panel>
 	</h:form>

@@ -10,6 +10,7 @@ public class Batalha{
 	private List<String> mensagens;
 	
 	public void lutar() {
+		Random gerador = new Random();
 		mensagens = new ArrayList<String>();
 		int[] vida = {pokemon1.getPokemon().getVida(), pokemon2.getPokemon().getVida()};
 		//mensagens.add(String.valueOf(pokemon1.getVida()));
@@ -18,6 +19,7 @@ public class Batalha{
 		while(vida[0] > 0 && vida[1] > 0) {
 			mensagens.add(pokemon1.getApelidoOuNome() + " tem " + vida[0] + " pontos de vida.");
 			mensagens.add(pokemon2.getApelidoOuNome() + " tem " + vida[1] + " pontos de vida.");
+			
 			dano = calculaDano(pokemon1, pokemon2);
 			mensagens.add(pokemon1.getApelidoOuNome() + " ataca " + pokemon2.getApelidoOuNome() + ", causando "
 					+ dano + " pontos de dano!");

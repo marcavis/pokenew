@@ -7,7 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import br.com.marcos.poke.domain.Usuario;
 import br.com.marcos.poke.util.HibernateUtil;
 
-public class UsuarioDao extends GenericDao<UsuarioDao>{
+public class UsuarioDao extends GenericDao<Usuario>{
 	
 	public Usuario buscarLoginSenha(String login, String senha){
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();

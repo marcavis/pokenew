@@ -22,6 +22,7 @@ public class EspecimeBean implements Serializable{
 	private Especime especime;
 	private List<Especime> especimes;
 	private Equipe equipeSelecionada;
+	private Especime especimeSelecionado;
 	
 	public void excluir(ActionEvent evento) {
 		try {
@@ -64,6 +65,14 @@ public class EspecimeBean implements Serializable{
 
 	public void setEspecime(Especime especime) {
 		this.especime = especime;
+	}
+	
+	public Especime getEspecimeSelecionado() {
+		return especimeSelecionado;
+	}
+
+	public void setEspecimeSelecionado(Especime especimeSelecionado) {
+		this.especimeSelecionado = especimeSelecionado;
 	}
 
 	public List<Especime> getEspecimes() {
