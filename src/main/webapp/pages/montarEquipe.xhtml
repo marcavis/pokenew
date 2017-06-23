@@ -44,6 +44,9 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 							<p:commandButton update=":formStatus:telaStatus" icon="ui-icon-search" title="Ver Status" oncomplete="PF('statusDialog').show();">
 								<f:setPropertyActionListener value="#{poke}" target="#{especimeBean.especimeSelecionado}" />
 							</p:commandButton>
+							<p:commandButton update=":formAtaques:telaAtaques" icon="ui-icon-plus" title="Ataques" oncomplete="PF('ataquesDialog').show();">
+								<f:setPropertyActionListener value="#{poke}" target="#{especimeBean.especimeSelecionado}" />
+							</p:commandButton>
 							<p:commandButton icon="ui-icon-trash" title="Excluir da Equipe" actionListener="#{especimeBean.excluir}"
 							update=":msg :formTab:teamTable">
 								<p:confirm header="Confirmação" 
@@ -87,6 +90,21 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 			</h:panelGrid>
 			<h:panelGrid columns="1" id="formTab" style="text-align:center;">
 				<p:commandButton value="Fechar" oncomplete="PF('statusDialog').hide()"/>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Ataques" widgetVar="ataquesDialog" resizable="false"
+	draggable="false" modal="true" closable="false">
+		<h:form id="formAtaques">
+			
+			<h:panelGrid columns="1" id="telaAtaques">
+				<p:graphicImage value="#{imageBean.img}" width="160" cache="false">
+					<f:param name="parCodigo" value="#{especimeBean.especimeSelecionado.pokemon.codigo}"/>
+				</p:graphicImage>
+			</h:panelGrid>
+			<h:panelGrid columns="1" id="formTab" style="text-align:center;">
+				<p:commandButton value="Fechar" oncomplete="PF('ataquesDialog').hide()"/>
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
