@@ -18,6 +18,8 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 					<h:outputText value="#{rota.nome}" />
 				</p:column>
 				<p:column headerText="Pokémons">
+					<h:outputText value="#{rota.contagem}" />
+					<p:spacer width="20"/>
 					<p:commandButton icon="ui-icon-plus" oncomplete="PF('pokeRotasDialog').show();"
 					actionListener="#{rotaPokemonBean.novo}" update=":pokeRotasCad:telaCad :pokeRotasCad:listaLoc :msg">
 						<f:attribute name="rotaAtual" value="#{rota}"/>
@@ -87,8 +89,13 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 		        </f:facet>
 		        <p:column>
 					<h:outputText value="#{loc.pokemon.nome}" />
+					<p:commandButton icon="ui-icon-trash" actionListener="#{rotaPokemonBean.excluir}"
+					update=":msg :pokeRotasCad:telaCad :pokeRotasCad:listaLoc :formTab:table">
+						<p:confirm header="Confirmação" 
+						message="Excluir essa Pokémon da rota?" icon="ui-icon-alert" />
+						<f:attribute name="rotaPokemonExcluir" value="#{loc}"/>
+					</p:commandButton>
 				</p:column>
-		        	
 		    </p:dataTable>
 		</h:form>
 	</p:dialog>

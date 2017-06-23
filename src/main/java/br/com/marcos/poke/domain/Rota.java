@@ -1,7 +1,12 @@
 package br.com.marcos.poke.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+import br.com.marcos.poke.dao.RotaPokemonDao;
 
 @SuppressWarnings("serial")
 @Entity
@@ -10,8 +15,8 @@ public class Rota extends GenericDomain{
 	@Column(length=20, nullable=false)
 	private String nome;
 	
-	//@OneToMany(mappedBy = "rota", targetEntity = RotaPokemon.class, cascade = CascadeType.ALL)
-	//private List<RotaPokemon> pokemonsDaRota;
+	@Transient
+	private Integer contagem;
 
 	public String getNome() {
 		return nome;
@@ -20,17 +25,20 @@ public class Rota extends GenericDomain{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-//	public List<RotaPokemon> getPokemonsDaRota() {
-//		return pokemonsDaRota;
-//	}
-//
-//	public void setPokemonsDaRota(List<RotaPokemon> pokemonsDaRota) {
-//		this.pokemonsDaRota = pokemonsDaRota;
-//	}
-
+	
 	@Override
 	public String toString() {
 		return "Rota [nome=" + nome + "]";
+	}
+	
+	public Integer getContagem() {
+		RotaPokemonDao dao = new RotaPokemonDao();
+		List<RotaPokemon> localizacoes = dao.listarTodos();
+		Integer resultado = 0;
+		for (RotaPokemon rp : localizacoes) {
+			if(rp.getRota().getCodigo() == getCodigo())
+				resultado++;
+		}
+		return resultado;
 	}
 }

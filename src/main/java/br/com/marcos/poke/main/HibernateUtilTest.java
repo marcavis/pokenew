@@ -1,6 +1,6 @@
 package br.com.marcos.poke.main;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class HibernateUtilTest {
 	public static void main(String[] args) {

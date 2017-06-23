@@ -1,45 +1,54 @@
 package br.com.marcos.poke.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class Batalha{
 	private Especime pokemon1;
 	private Especime pokemon2;
+	private ArrayList<Lutador> lutadores;
 	private List<String> mensagens;
 	
 	public void lutar() {
-		Random gerador = new Random();
 		mensagens = new ArrayList<String>();
-		int[] vida = {pokemon1.getPokemon().getVida(), pokemon2.getPokemon().getVida()};
-		//mensagens.add(String.valueOf(pokemon1.getVida()));
-		//mensagens.add(String.valueOf(pokemon2.getVida()));
-		int dano = 0;
-		while(vida[0] > 0 && vida[1] > 0) {
-			mensagens.add(pokemon1.getApelidoOuNome() + " tem " + vida[0] + " pontos de vida.");
-			mensagens.add(pokemon2.getApelidoOuNome() + " tem " + vida[1] + " pontos de vida.");
-			
-			dano = calculaDano(pokemon1, pokemon2);
-			mensagens.add(pokemon1.getApelidoOuNome() + " ataca " + pokemon2.getApelidoOuNome() + ", causando "
-					+ dano + " pontos de dano!");
-			vida[1] -= dano;
-			if(vida[1] < 1) {
-				mensagens.add(pokemon2.getApelidoOuNome() + " não consegue mais lutar!");
-				mensagens.add(pokemon1.getApelidoOuNome() + " é o vencedor!");
-				return;
+		
+		lutadores = new ArrayList<Lutador>();
+		lutadores.add(new Lutador(pokemon1));
+		lutadores.add(new Lutador(pokemon2));
+		lutadores.get(0).setAdversario(lutadores.get(1));
+		lutadores.get(1).setAdversario(lutadores.get(0));
+		boolean fim = false;
+		while(fim == false) {
+			lutadores = ordenarPorVelocidade(lutadores);
+			for (Lutador l : lutadores) {
+				mensagens.add(l.getNome() + " tem " + l.getVidaAtual() + " pontos de vida.");
 			}
-			dano = calculaDano(pokemon2, pokemon1);
-			mensagens.add(pokemon2.getApelidoOuNome() + " ataca " + pokemon1.getApelidoOuNome() + ", causando "
-					+ dano + " pontos de dano!");
-			vida[0] -= dano;
-			if(vida[0] < 1) {
-				mensagens.add(pokemon1.getApelidoOuNome() + " não consegue mais lutar!");
-				mensagens.add(pokemon2.getApelidoOuNome() + " é o vencedor!");
+			System.out.println("");
+			for (Lutador l : lutadores) {
+				l.atacar(l.getAdversario(), mensagens);
+				if(l.getAdversario().isDerrotado()) {
+					fim = true;
+					break;
+				}
 			}
 		}
 	}
 	
+	//Ordenar a lista de lutadores de modo que o mais rápido ataque primeiro
+	//Se ambos têm a mesma velocidade, decidir aleatoriamente pela ordem
+	private ArrayList<Lutador> ordenarPorVelocidade(ArrayList<Lutador> lutadores) {
+		//ArrayList<Lutador> novaLista = new ArrayList<Lutador>()
+		Random gerador = new Random();
+		if (lutadores.get(0).getEspecime().getVelocidade() > lutadores.get(1).getEspecime().getVelocidade() ||
+				lutadores.get(0).getEspecime().getVelocidade() == lutadores.get(1).getEspecime().getVelocidade() &&
+				gerador.nextDouble() < 0.5)
+			return lutadores;
+		else
+			return new ArrayList<Lutador>(Arrays.asList(lutadores.get(1), lutadores.get(0)));
+	}
+
 	public int calculaDano (Especime p1, Especime p2) {
 		double div = ((double) p1.getPokemon().getAtaque())/p2.getPokemon().getDefesa();
 		Random gerador = new Random();

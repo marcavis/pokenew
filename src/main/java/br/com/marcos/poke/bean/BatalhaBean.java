@@ -8,7 +8,6 @@ import javax.faces.event.ActionEvent;
 
 import br.com.marcos.poke.domain.Batalha;
 import br.com.marcos.poke.domain.Equipe;
-import br.com.marcos.poke.domain.Pokemon;
 
 @ManagedBean
 @ViewScoped

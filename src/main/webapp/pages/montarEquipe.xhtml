@@ -26,14 +26,32 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 			<p:dataGrid emptyMessage="Sem registros"
 			value="#{especimeBean.equipeSelecionada.pokemons}" var="poke" id="table"
 			columns="6" rows="6">
-				<p:panelGrid headerText="Pokémon" columns="1">
-					<p:graphicImage value="#{imageBean.img}" width="160" cache="false">
-						<f:param name="parCodigo" value="#{poke.pokemon.codigo}"/>
-					</p:graphicImage>
-					<h:outputText value="#{poke.apelidoOuNome}" />
-					<p:commandButton update=":formStatus:telaStatus" icon="ui-icon-search" title="Ver Status" oncomplete="PF('statusDialog').show();">
-						<f:setPropertyActionListener value="#{poke}" target="#{especimeBean.especimeSelecionado}" />
-					</p:commandButton>
+				<p:panelGrid headerText="Pokémon">
+					<p:row>
+						<p:column>
+							<p:graphicImage value="#{imageBean.img}" width="160" cache="false">
+								<f:param name="parCodigo" value="#{poke.pokemon.codigo}"/>
+							</p:graphicImage>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							#{poke.apelidoOuNome}
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:commandButton update=":formStatus:telaStatus" icon="ui-icon-search" title="Ver Status" oncomplete="PF('statusDialog').show();">
+								<f:setPropertyActionListener value="#{poke}" target="#{especimeBean.especimeSelecionado}" />
+							</p:commandButton>
+							<p:commandButton icon="ui-icon-trash" title="Excluir da Equipe" actionListener="#{especimeBean.excluir}"
+							update=":msg :formTab:teamTable">
+								<p:confirm header="Confirmação" 
+								message="Excluir esse Pokémon da equipe?" icon="ui-icon-alert" />
+								<f:attribute name="especimeExcluir" value="#{poke}"/>
+							</p:commandButton>
+						</p:column>
+					</p:row>
 				</p:panelGrid>
 			</p:dataGrid>
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -80,7 +98,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				<p:outputLabel value="Treinador"/>
 				<p:outputLabel value="#{especimeBean.equipeSelecionada.treinador}"/>
 				<p:outputLabel value="Apelido"/>
-				<p:inputText size="20" maxlength="100" value="#{especimeBean.especime.apelido}"/>
+				<p:inputText size="20" maxlength="20" value="#{especimeBean.especime.apelido}"/>
 				<p:outputLabel value="Pokémon"/>
 				<p:selectOneMenu filter="true" value="#{especimeBean.especime.pokemon}" 
 				required="true" requiredMessage="Espécie de Pokémon: Obrigatória"
@@ -124,7 +142,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="formTab">
 				<p:commandButton value="Iniciar" actionListener="#{batalhaBean.batalha.lutar}"
-				oncomplete="PF('batalhaDialog').hide();PF('resultadoDialog').show()" update=":msg :batalhaCad:telaBat :resultadoCad:resultado :formTab:table"/>
+				oncomplete="if (args &amp;&amp; !args.validationFailed) {PF('resultadoDialog').show();PF('batalhaDialog').hide()}" update=":msg :batalhaCad:telaBat :resultadoCad:resultado :formTab:table"/>
 				<p:commandButton value="Fechar" oncomplete="PF('batalhaDialog').hide()"/>
 			</h:panelGrid>
 		</h:form>
@@ -133,7 +151,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 	resizable="false" draggable="false" modal="true" closable="false">
 		<h:form id="resultadoCad">
 			<h:panelGrid columns="1" id="resultado">
-				<p:dataList value="#{batalhaBean.batalha.mensagens}" var="msg" scrollable="true" scrollHeight="150">
+				<p:dataList value="#{batalhaBean.batalha.mensagens}" var="msg" paginator="true" rows="20">
 			        <f:facet name="header">
 			            Resultado
 			        </f:facet>

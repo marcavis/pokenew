@@ -10,9 +10,7 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
-import br.com.marcos.poke.dao.PokemonDao;
 import br.com.marcos.poke.dao.RotaPokemonDao;
-import br.com.marcos.poke.domain.Pokemon;
 import br.com.marcos.poke.domain.Rota;
 import br.com.marcos.poke.domain.RotaPokemon;
 
@@ -22,7 +20,6 @@ import br.com.marcos.poke.domain.RotaPokemon;
 public class RotaPokemonBean implements Serializable{
 	private RotaPokemon rotaPokemon;
 	private List<RotaPokemon> localizacoes;
-	private List<Pokemon> pokemonsDaRota;
 	
 	private Rota rota;
 	private String codigoRota;
@@ -91,30 +88,6 @@ public class RotaPokemonBean implements Serializable{
 
 	public void setCodigoRota(String codigoRota) {
 		this.codigoRota = codigoRota;
-	}
-	
-	public List<Pokemon> getPokemonsDaRota(ActionEvent evento) {
-		PokemonDao pdao = new PokemonDao();
-		System.out.println("arg");
-		Long codRotaFiltro = (Long) evento.getComponent().getAttributes().get("rotaAtual");
-		pokemonsDaRota = pdao.listarTodos();
-		RotaPokemonDao rpdao = new RotaPokemonDao();
-		List<RotaPokemon> localizacoesDaRota = rpdao.listarTodos("rota", codRotaFiltro);
-		for (RotaPokemon rotaPokemon : localizacoesDaRota) {
-			System.out.println(rotaPokemon);
-		}
-		return pokemonsDaRota;
-	}
-
-	public List<Pokemon> getPokemonsDaRota() {
-		System.out.println("NOarg");
-		PokemonDao pdao = new PokemonDao();
-		pokemonsDaRota = pdao.listarTodos();
-		return pokemonsDaRota;
-	}
-
-	public void setPokemonsDaRota(List<Pokemon> pokemonsDaRota) {
-		this.pokemonsDaRota = pokemonsDaRota;
 	}
 
 	public void salvar() {
