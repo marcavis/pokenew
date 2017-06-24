@@ -63,6 +63,7 @@ public class AtaqueBean implements Serializable{
 	}
 
 	public List<Ataque> getAtaques() {
+		listar();
 		return ataques;
 	}
 

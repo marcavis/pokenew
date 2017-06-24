@@ -37,8 +37,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 					actionListener="#{rotaBean.alterar}" update=":formCad:telaCad :msg">
 						<f:attribute name="rotaAlterar" value="#{rota}"/>
 					</p:commandButton>
-					
-					
+
 				</p:column>
 			</p:dataTable>
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -73,6 +72,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				<p:outputLabel value="Pokémon"/>
 				<p:selectOneMenu filter="true" value="#{rotaPokemonBean.rotaPokemon.pokemon}"
 				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um pokémon" itemValue=""/>
 					<f:selectItems value="#{pokemonBean.pokemons}" var="pokemon"
 					itemLabel="#{pokemon.nome}"
 					itemValue="#{pokemon}"/>

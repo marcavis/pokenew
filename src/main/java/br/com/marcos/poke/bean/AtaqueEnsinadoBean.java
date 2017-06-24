@@ -12,6 +12,7 @@ import org.omnifaces.util.Messages;
 
 import br.com.marcos.poke.dao.AtaqueEnsinadoDao;
 import br.com.marcos.poke.domain.AtaqueEnsinado;
+import br.com.marcos.poke.domain.Especime;
 
 @ManagedBean
 @ViewScoped
@@ -19,6 +20,7 @@ import br.com.marcos.poke.domain.AtaqueEnsinado;
 public class AtaqueEnsinadoBean implements Serializable{
 	private AtaqueEnsinado ataqueEnsinado;
 	private List<AtaqueEnsinado> ataquesEnsinados;
+	private Especime especimeSelecionado;
 	
 	public void excluir(ActionEvent evento) {
 		try {
@@ -50,8 +52,14 @@ public class AtaqueEnsinadoBean implements Serializable{
 		}
 	}
 	
-	public void novo() {
+	public void novo(ActionEvent evento) {
 		ataqueEnsinado = new AtaqueEnsinado();
+		Especime especimeAtual = (Especime)evento.getComponent().getAttributes().get("especimeAtual");
+		ataqueEnsinado.setEspecime(especimeAtual);
+	}
+	
+	public void novo() {
+		
 	}
 
 	public AtaqueEnsinado getAtaqueEnsinado() {
@@ -70,12 +78,20 @@ public class AtaqueEnsinadoBean implements Serializable{
 		this.ataquesEnsinados = ataquesEnsinados;
 	}
 
+	public Especime getEspecimeSelecionado() {
+		return especimeSelecionado;
+	}
+
+	public void setEspecimeSelecionado(Especime especimeSelecionado) {
+		this.especimeSelecionado = especimeSelecionado;
+	}
+
 	public void salvar() {
 		try {
 			AtaqueEnsinadoDao dao = new AtaqueEnsinadoDao();
 			dao.merge(ataqueEnsinado);
 			Messages.addGlobalInfo("Ataque ensinado a" + ataqueEnsinado.getEspecime().getApelidoOuNome() + " com sucesso.");
-			novo();
+			//novo();
 			listar();
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao ensinar Ataque");

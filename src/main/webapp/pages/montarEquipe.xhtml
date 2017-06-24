@@ -44,8 +44,9 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 							<p:commandButton update=":formStatus:telaStatus" icon="ui-icon-search" title="Ver Status" oncomplete="PF('statusDialog').show();">
 								<f:setPropertyActionListener value="#{poke}" target="#{especimeBean.especimeSelecionado}" />
 							</p:commandButton>
-							<p:commandButton update=":formAtaques:telaAtaques" icon="ui-icon-plus" title="Ataques" oncomplete="PF('ataquesDialog').show();">
-								<f:setPropertyActionListener value="#{poke}" target="#{especimeBean.especimeSelecionado}" />
+							<p:commandButton update=":formAtaques:telaAtaques :formAtaques:listaAtaques" icon="ui-icon-plus" title="Ataques" 
+							actionListener="#{ataqueEnsinadoBean.novo}" oncomplete="PF('ataquesDialog').show();">
+								<f:attribute name="especimeAtual" value="#{poke}"/>
 							</p:commandButton>
 							<p:commandButton icon="ui-icon-trash" title="Excluir da Equipe" actionListener="#{especimeBean.excluir}"
 							update=":msg :formTab:teamTable">
@@ -98,14 +99,38 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 	draggable="false" modal="true" closable="false">
 		<h:form id="formAtaques">
 			
-			<h:panelGrid columns="1" id="telaAtaques">
-				<p:graphicImage value="#{imageBean.img}" width="160" cache="false">
-					<f:param name="parCodigo" value="#{especimeBean.especimeSelecionado.pokemon.codigo}"/>
-				</p:graphicImage>
+			<h:panelGrid columns="2" id="telaAtaques">
+				<p:outputLabel value="Pokémon"/>
+				<p:outputLabel value="#{ataqueEnsinadoBean.ataqueEnsinado.especime.nomeOuApelidoENome}"/>
+				<p:outputLabel value="Ataque"/>
+				<p:selectOneMenu filter="true" value="#{ataqueEnsinadoBean.ataqueEnsinado.ataque}" 
+				converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="Selecione um ataque" itemValue=""/>
+					<f:selectItems value="#{ataqueBean.ataques}" var="atq"
+					itemLabel="#{atq.nome}"
+					itemValue="#{atq}"/>
+				</p:selectOneMenu>
 			</h:panelGrid>
-			<h:panelGrid columns="1" id="formTab" style="text-align:center;">
+			<h:panelGrid columns="2" id="formTab" style="text-align:center;">
+				<p:commandButton value="Salvar" actionListener="#{ataqueEnsinadoBean.salvar}"
+					update=":msg :formAtaques:telaAtaques :formAtaques:listaAtaques"/>
 				<p:commandButton value="Fechar" oncomplete="PF('ataquesDialog').hide()"/>
 			</h:panelGrid>
+			<p:dataTable emptyMessage="Sem registros" value="#{ataqueEnsinadoBean.ataqueEnsinado.especime.meusAtaques}" 
+				style="width:250px;" id="listaAtaques" var="atq" type="definition">
+		        <f:facet name="header">
+		            Ataques Aprendidos
+		        </f:facet>
+		        <p:column>
+					<h:outputText value="#{atq.ataque.nome}" />
+					<p:commandButton icon="ui-icon-trash" actionListener="#{ataqueEnsinadoBean.excluir}"
+					update=":msg :formAtaques:telaAtaques :formAtaques:listaAtaques :formTab:table">
+						<p:confirm header="Confirmação" 
+						message="Fazer #{ataqueEnsinadoBean.ataqueEnsinado.especime.apelidoOuNome} esquecer esse ataque?" icon="ui-icon-alert" />
+						<f:attribute name="ataqueEnsinadoExcluir" value="#{atq}"/>
+					</p:commandButton>
+				</p:column>
+		    </p:dataTable>
 		</h:form>
 	</p:dialog>
 	
@@ -165,6 +190,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
+	
 	<p:dialog header="Batalha" widgetVar="resultadoDialog"
 	resizable="false" draggable="false" modal="true" closable="false">
 		<h:form id="resultadoCad">

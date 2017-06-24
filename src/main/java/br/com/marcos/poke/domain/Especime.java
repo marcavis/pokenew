@@ -1,10 +1,15 @@
 package br.com.marcos.poke.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+
+import br.com.marcos.poke.dao.AtaqueEnsinadoDao;
 
 @SuppressWarnings("serial")
 @Entity
@@ -134,5 +139,16 @@ public class Especime extends GenericDomain{
 
 	public void setVelocidade(Integer velocidade) {
 		this.velocidade = velocidade;
+	}
+	
+	public List<AtaqueEnsinado> getMeusAtaques() {
+		AtaqueEnsinadoDao dao = new AtaqueEnsinadoDao();
+		List<AtaqueEnsinado> ataques = dao.listarTodos();
+		ArrayList<AtaqueEnsinado> resultado = new ArrayList<AtaqueEnsinado>();
+		for (AtaqueEnsinado atq : ataques) {
+			if(atq.getEspecime().getCodigo() == getCodigo())
+				resultado.add(atq);
+		}
+		return resultado;
 	}
 }
