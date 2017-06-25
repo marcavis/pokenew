@@ -59,7 +59,7 @@ public class AtaqueEnsinadoBean implements Serializable{
 	}
 	
 	public void novo() {
-		
+		ataqueEnsinado = new AtaqueEnsinado();
 	}
 
 	public AtaqueEnsinado getAtaqueEnsinado() {
@@ -89,8 +89,19 @@ public class AtaqueEnsinadoBean implements Serializable{
 	public void salvar() {
 		try {
 			AtaqueEnsinadoDao dao = new AtaqueEnsinadoDao();
+			for (AtaqueEnsinado atq : ataquesEnsinados) {
+				if(ataqueEnsinado.getAtaque().getCodigo() == atq.getAtaque().getCodigo() &&
+						ataqueEnsinado.getEspecime().getCodigo() == atq.getEspecime().getCodigo()) {
+					Messages.addGlobalError("Erro: Pokémon já aprendeu esse ataque!");
+					return;
+				}
+				if(dao.listarTodos("especime.codigo", ataqueEnsinado.getEspecime().getCodigo()).size() >= 4) {
+					Messages.addGlobalError("Pokémon já aprendeu o máximo de 4 ataques!");
+					return;
+				}
+			}
 			dao.merge(ataqueEnsinado);
-			Messages.addGlobalInfo("Ataque ensinado a" + ataqueEnsinado.getEspecime().getApelidoOuNome() + " com sucesso.");
+			Messages.addGlobalInfo("Ataque ensinado a " + ataqueEnsinado.getEspecime().getApelidoOuNome() + " com sucesso.");
 			//novo();
 			listar();
 		} catch (Exception e) {
