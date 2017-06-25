@@ -15,8 +15,9 @@ public class Batalha{
 		mensagens = new ArrayList<String>();
 		
 		lutadores = new ArrayList<Lutador>();
-		lutadores.add(new Lutador(pokemon1));
-		lutadores.add(new Lutador(pokemon2));
+		//a enum Jogador ainda não faz nada 
+		lutadores.add(new Lutador(pokemon1, Jogador.JOGADOR));
+		lutadores.add(new Lutador(pokemon2, Jogador.COMPUTADOR));
 		lutadores.get(0).setAdversario(lutadores.get(1));
 		lutadores.get(1).setAdversario(lutadores.get(0));
 		boolean fim = false;

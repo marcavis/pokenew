@@ -80,7 +80,7 @@ public class Especime extends GenericDomain{
 	}
 
 	public Integer getNivel() {
-		return 10;
+		return 30;
 	}
 
 	public void setNivel(Integer nivel) {

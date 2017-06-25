@@ -3,14 +3,17 @@ package br.com.marcos.poke.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @SuppressWarnings("serial")
 @Entity
 public class Efetividade extends GenericDomain{
 
+	@ManyToOne
 	@JoinColumn(nullable=false)
 	private Tipo tipo1;
 	
+	@ManyToOne
 	@JoinColumn(nullable=false)
 	private Tipo tipo2;
 	
