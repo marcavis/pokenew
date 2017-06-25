@@ -7,7 +7,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
 import br.com.marcos.poke.domain.Batalha;
-import br.com.marcos.poke.domain.Equipe;
 
 @ManagedBean
 @ViewScoped
@@ -17,9 +16,6 @@ public class BatalhaBean implements Serializable {
 	
 	public void novo(ActionEvent evento) {
 		batalha = new Batalha();
-		System.out.println("COMECOU");
-		Equipe equipeAtual = (Equipe) evento.getComponent().getAttributes().get("equipeAtual");
-		System.out.println(equipeAtual.getTreinador());
 	}
 
 	public Batalha getBatalha() {

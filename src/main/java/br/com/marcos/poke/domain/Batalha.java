@@ -25,7 +25,6 @@ public class Batalha{
 			for (Lutador l : lutadores) {
 				mensagens.add(l.getNome() + " tem " + l.getVidaAtual() + " pontos de vida.");
 			}
-			System.out.println("");
 			for (Lutador l : lutadores) {
 				l.atacar(l.getAdversario(), mensagens);
 				if(l.getAdversario().isDerrotado()) {
@@ -49,7 +48,7 @@ public class Batalha{
 			return new ArrayList<Lutador>(Arrays.asList(lutadores.get(1), lutadores.get(0)));
 	}
 
-	public int calculaDano (Especime p1, Especime p2) {
+	public int calculaDano(Especime p1, Especime p2) {
 		double div = ((double) p1.getPokemon().getAtaque())/p2.getPokemon().getDefesa();
 		Random gerador = new Random();
 		double fatorAleatorio = 0.85 + gerador.nextDouble() * 0.15;
