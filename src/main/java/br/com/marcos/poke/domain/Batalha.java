@@ -48,15 +48,6 @@ public class Batalha{
 		else
 			return new ArrayList<Lutador>(Arrays.asList(lutadores.get(1), lutadores.get(0)));
 	}
-
-	public int calculaDano(Especime p1, Especime p2) {
-		double div = ((double) p1.getPokemon().getAtaque())/p2.getPokemon().getDefesa();
-		Random gerador = new Random();
-		double fatorAleatorio = 0.85 + gerador.nextDouble() * 0.15;
-		double modificador = fatorAleatorio;
-		return (int) Math.ceil((((20 * 30 * div)/50) + 2) * modificador); 
-		//return Math.max(2, p1.getPokemon().getAtaque()-p2.getPokemon().getDefesa());
-	}
 	
 	public Especime getPokemon1() {
 		return pokemon1;
