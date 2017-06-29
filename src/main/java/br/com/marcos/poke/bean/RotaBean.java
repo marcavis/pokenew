@@ -11,6 +11,7 @@ import javax.faces.event.ActionEvent;
 import org.omnifaces.util.Messages;
 
 import br.com.marcos.poke.dao.RotaDao;
+import br.com.marcos.poke.dao.RotaPokemonDao;
 import br.com.marcos.poke.domain.Rota;
 import br.com.marcos.poke.domain.RotaPokemon;
 
@@ -25,12 +26,27 @@ public class RotaBean implements Serializable{
 	public void excluir(ActionEvent evento) {
 		try {
 			rota = (Rota) evento.getComponent().getAttributes().get("rotaExcluir");
+			excluirLocalizacoes();
 			RotaDao dao = new RotaDao();
 			dao.excluir(rota);
 			listar();
 			Messages.addGlobalInfo("Rota " + rota.getNome() + " excluída com sucesso.");
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao excluir Rota");
+			e.printStackTrace();
+		}
+	}
+	
+	public void excluirLocalizacoes() {
+		try {
+			RotaPokemonDao dao = new RotaPokemonDao();
+			List<RotaPokemon> localizacoes = dao.listarTodos();
+			for (RotaPokemon rp : localizacoes) {
+				if(rp.getRota().getCodigo() == getRota().getCodigo())
+					dao.excluir(rp);
+			}
+		} catch (Exception e) {
+			Messages.addGlobalError("Erro ao excluir pokémons cadastrados na rota");
 			e.printStackTrace();
 		}
 	}
