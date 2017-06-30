@@ -40,10 +40,9 @@ public class RotaBean implements Serializable{
 	public void excluirLocalizacoes() {
 		try {
 			RotaPokemonDao dao = new RotaPokemonDao();
-			List<RotaPokemon> localizacoes = dao.listarTodos();
+			List<RotaPokemon> localizacoes = dao.listarTodos("rota.codigo", getRota().getCodigo());
 			for (RotaPokemon rp : localizacoes) {
-				if(rp.getRota().getCodigo() == getRota().getCodigo())
-					dao.excluir(rp);
+				dao.excluir(rp);
 			}
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao excluir pokémons cadastrados na rota");

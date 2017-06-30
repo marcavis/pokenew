@@ -11,7 +11,9 @@ import javax.faces.event.ActionEvent;
 import org.omnifaces.util.Messages;
 
 import br.com.marcos.poke.dao.AtaqueDao;
+import br.com.marcos.poke.dao.AtaqueEnsinadoDao;
 import br.com.marcos.poke.domain.Ataque;
+import br.com.marcos.poke.domain.AtaqueEnsinado;
 
 @ManagedBean
 @ViewScoped
@@ -24,11 +26,25 @@ public class AtaqueBean implements Serializable{
 		try {
 			ataque = (Ataque) evento.getComponent().getAttributes().get("ataqueExcluir");
 			AtaqueDao dao = new AtaqueDao();
+			excluirAtaquesEnsinados();
 			dao.excluir(ataque);
 			listar();
 			Messages.addGlobalInfo("Ataque " + ataque.getNome() + " excluído com sucesso.");
 		} catch (Exception e) {
-			Messages.addGlobalError("Erro ao excluir Ataque");
+			Messages.addGlobalError("Erro ao excluir ataque");
+			e.printStackTrace();
+		}
+	}
+	
+	public void excluirAtaquesEnsinados() {
+		try {
+			AtaqueEnsinadoDao dao = new AtaqueEnsinadoDao();
+			List<AtaqueEnsinado> ensinados = dao.listarTodos("ataque.codigo", getAtaque().getCodigo());
+			for (AtaqueEnsinado atq : ensinados) {
+				dao.excluir(atq);
+			}
+		} catch (Exception e) {
+			Messages.addGlobalError("Erro ao excluir cadastramentos deste ataque em pokémons");
 			e.printStackTrace();
 		}
 	}

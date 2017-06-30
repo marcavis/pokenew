@@ -21,10 +21,12 @@ import org.primefaces.model.UploadedFile;
 //import br.com.marcos.poke.dao.CidadeDao;
 //import br.com.marcos.poke.dao.EstadoDao;
 import br.com.marcos.poke.dao.PokemonDao;
+import br.com.marcos.poke.dao.RotaPokemonDao;
 import br.com.marcos.poke.dao.TipoDao;
 import br.com.marcos.poke.domain.Tipo;
 import br.com.marcos.poke.util.Settings;
 import br.com.marcos.poke.domain.Pokemon;
+import br.com.marcos.poke.domain.RotaPokemon;
 
 //viewscoped - presente durante a presença da tela
 @ManagedBean
@@ -50,6 +52,7 @@ public class PokemonBean implements Serializable{
 		try {
 			pokemon = (Pokemon) evento.getComponent().getAttributes().get("pokemonExcluir");
 			PokemonDao dao = new PokemonDao();
+			excluirLocalizacoes();
 			dao.excluir(pokemon);
 			Path caminho = Paths.get(Settings.getCaminho() + "/img/poke/"
 			+ pokemon.getCodigo() + ".png");
@@ -58,6 +61,19 @@ public class PokemonBean implements Serializable{
 			Messages.addGlobalInfo(pokemon.getNome() + " excluído com sucesso.");
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao excluir Pokémon");
+			e.printStackTrace();
+		}
+	}
+	
+	public void excluirLocalizacoes() {
+		try {
+			RotaPokemonDao dao = new RotaPokemonDao();
+			List<RotaPokemon> localizacoes = dao.listarTodos("pokemon.codigo", getPokemon().getCodigo());
+			for (RotaPokemon rp : localizacoes) {
+				dao.excluir(rp);
+			}
+		} catch (Exception e) {
+			Messages.addGlobalError("Erro ao excluir cadastramentos deste pokémon em rotas");
 			e.printStackTrace();
 		}
 	}

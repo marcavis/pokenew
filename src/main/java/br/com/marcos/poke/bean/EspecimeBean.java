@@ -10,8 +10,10 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
+import br.com.marcos.poke.dao.AtaqueEnsinadoDao;
 import br.com.marcos.poke.dao.EquipeDao;
 import br.com.marcos.poke.dao.EspecimeDao;
+import br.com.marcos.poke.domain.AtaqueEnsinado;
 import br.com.marcos.poke.domain.Equipe;
 import br.com.marcos.poke.domain.Especime;
 
@@ -28,11 +30,25 @@ public class EspecimeBean implements Serializable{
 		try {
 			especime = (Especime) evento.getComponent().getAttributes().get("especimeExcluir");
 			EspecimeDao dao = new EspecimeDao();
+			excluirAtaquesEnsinados();
 			dao.excluir(especime);
 			listar();
-			Messages.addGlobalInfo(especime.getApelido() + " excluído da equipe.");
+			Messages.addGlobalInfo(especime.getApelidoOuNome() + " excluído da equipe.");
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao excluir " + especime.getApelido());
+			e.printStackTrace();
+		}
+	}
+	
+	public void excluirAtaquesEnsinados() {
+		try {
+			AtaqueEnsinadoDao dao = new AtaqueEnsinadoDao();
+			List<AtaqueEnsinado> ensinados = dao.listarTodos("especime.codigo", getEspecime().getCodigo());
+			for (AtaqueEnsinado atq : ensinados) {
+				dao.excluir(atq);
+			}
+		} catch (Exception e) {
+			Messages.addGlobalError("Erro ao excluir ataques aprendidos por este Pokémon");
 			e.printStackTrace();
 		}
 	}
