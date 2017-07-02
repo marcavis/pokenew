@@ -7,3 +7,11 @@
 .panelGridCenter{
 	margin: 0 auto;
 }
+
+.column1 {
+    text-align: left;
+}
+
+.column2 {
+    text-align: right;
+}

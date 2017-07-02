@@ -195,9 +195,31 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 	resizable="false" draggable="false" modal="true" closable="false">
 		<h:form id="resultadoCad">
 			<p:panel id="statusPanel" header="Combatentes" widgetVar="statusPanel">
-				<h:panelGrid columns="2" id="vidas">
-					<p:outputLabel value="#{batalhaBean.batalha.vidaEsquerda}"/>
-					<p:outputLabel value="#{batalhaBean.batalha.vidaDireita}"/>
+				<h:panelGrid columns="2">
+					<p:panel>
+					<h:panelGrid columns="1" id="vidaEsq">
+						<p:outputLabel value="#{batalhaBean.batalha.vidaEsquerda}"/>
+						<p:row>
+							<p:column>
+								<p:graphicImage value="#{imageBean.img}" width="80" cache="false">
+									<f:param name="parCodigo" value="#{batalhaBean.batalha.lutadorDaEsquerda.especime.pokemon.codigo}"/>
+								</p:graphicImage>
+							</p:column>
+						</p:row>
+					</h:panelGrid>
+					</p:panel>
+					<p:panel style="float:right">
+					<h:panelGrid columns="1" id="vidaDir">
+						<p:outputLabel value="#{batalhaBean.batalha.vidaDireita}"/>
+						<p:row>
+							<p:column>
+								<p:graphicImage value="#{imageBean.img}" width="80" cache="false">
+									<f:param name="parCodigo" value="#{batalhaBean.batalha.lutadorDaDireita.especime.pokemon.codigo}"/>
+								</p:graphicImage>
+							</p:column>
+						</p:row>
+					</h:panelGrid>
+					</p:panel>
 				</h:panelGrid>
 			</p:panel>
 			<h:panelGrid columns="1" id="resultado">
