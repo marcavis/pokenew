@@ -10,14 +10,17 @@ public class Batalha{
 	private Especime pokemon2;
 	private ArrayList<Lutador> lutadores;
 	private List<String> mensagens;
+	private Lutador lutadorDaEsquerda;
+	private Lutador lutadorDaDireita;
 	
 	public void lutar() {
 		mensagens = new ArrayList<String>();
 		
 		lutadores = new ArrayList<Lutador>();
-		//a enum Jogador ainda não faz nada 
 		lutadores.add(new Lutador(pokemon1, Jogador.JOGADOR));
+		setLutadorDaEsquerda(lutadores.get(0));
 		lutadores.add(new Lutador(pokemon2, Jogador.COMPUTADOR));
+		setLutadorDaDireita(lutadores.get(1));
 		lutadores.get(0).setAdversario(lutadores.get(1));
 		lutadores.get(1).setAdversario(lutadores.get(0));
 		boolean fim = false;
@@ -71,5 +74,41 @@ public class Batalha{
 
 	public void setMensagens(List<String> mensagens) {
 		this.mensagens = mensagens;
+	}
+
+	public ArrayList<Lutador> getLutadores() {
+		return lutadores;
+	}
+
+	public void setLutadores(ArrayList<Lutador> lutadores) {
+		this.lutadores = lutadores;
+	}
+
+	public Lutador getLutadorDaEsquerda() {
+		return lutadorDaEsquerda;
+	}
+
+	public void setLutadorDaEsquerda(Lutador lutadorDaEsquerda) {
+		this.lutadorDaEsquerda = lutadorDaEsquerda;
+	}
+	
+	public String getVidaEsquerda() {
+		return getLutadorDaEsquerda().getNome() + ": "
+				+ getLutadorDaEsquerda().getVidaAtual() + "/" + getLutadorDaEsquerda().getEspecime().getVida()
+				+ " ❤";
+	}
+	
+	public Lutador getLutadorDaDireita() {
+		return lutadorDaDireita;
+	}
+
+	public void setLutadorDaDireita(Lutador lutadorDaDireita) {
+		this.lutadorDaDireita = lutadorDaDireita;
+	}
+	
+	public String getVidaDireita() {
+		return getLutadorDaDireita().getNome() + ": "
+				+ getLutadorDaDireita().getVidaAtual() + "/" + getLutadorDaDireita().getEspecime().getVida()
+				+ " ❤";
 	}
 }

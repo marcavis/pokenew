@@ -59,6 +59,10 @@ public class Lutador {
 	public void setControlador(Jogador controlador) {
 		this.controlador = controlador;
 	}
+	
+	public boolean isJogador() {
+		return getControlador() == Jogador.JOGADOR;
+	}
 
 	public String getNome() {
 		return getEspecime().getApelidoOuNome();
@@ -70,8 +74,16 @@ public class Lutador {
 		return getEspecime().getMeusAtaques().get(gerador.nextInt(qtAtaques)).getAtaque();
 	}
 	
+	public Ataque menuDeAtaque() {
+		return getEspecime().getMeusAtaques().get(0).getAtaque();
+	}
+	
 	public void atacar(Lutador adversario, List<String> mensagens) {
-		Ataque ataque = escolherAtaque();
+		Ataque ataque;
+		if(isJogador())
+			ataque = menuDeAtaque();
+		else
+			ataque = escolherAtaque();
 		
 		//adversario.receberAtaque(dano, ataque.getNome(), mensagens); 
 		adversario.receberAtaque(ataque, mensagens);
@@ -99,7 +111,7 @@ public class Lutador {
 		} else if (fatorEfetividade > 1.0) {
 			mensagens.add("O ataque foi super-efetivo!");
 		}
-		System.out.println(stab(ataque, adversario) + "stab" + modificador);
+		//System.out.println(stab(ataque, adversario) + "stab" + modificador);
 		if (dano >= getVidaAtual()) {
 			setDerrotado(true);
 			mensagens.add(getNome() + " não consegue mais lutar!");
@@ -129,16 +141,14 @@ public class Lutador {
 			if(ef.getTipo1().getCodigo() == ataque.getTipo().getCodigo() &&
 					ef.getTipo2().getCodigo() == getEspecime().getPokemon().getTipo1().getCodigo()) {
 				ef1 = ((double) ef.getEfetividade()) / 100;
-				System.out.println("ef1 " + ef1 + "," + ataque.getTipo().getNome() + "," + getEspecime().getPokemon().getTipo1().getNome());
+				//System.out.println("ef1 " + ef1 + "," + ataque.getTipo().getNome() + "," + getEspecime().getPokemon().getTipo1().getNome());
 			}
 			if(getEspecime().getPokemon().getTipo2() != null &&
 					ef.getTipo1().getCodigo() == ataque.getTipo().getCodigo() &&
 					ef.getTipo2().getCodigo() == getEspecime().getPokemon().getTipo2().getCodigo()) {
 				ef2 = ((double) ef.getEfetividade()) / 100;
-				System.out.println("ef2 " + ef2);
 			}
 		}
-		System.out.println(ef1 * ef2);
 		return ef1 * ef2;
 	}
 	
