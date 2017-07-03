@@ -9,6 +9,7 @@ public class Lutador {
 	private Especime especime;
 	private Lutador adversario;
 	
+	private Ataque ataqueSelecionado;
 	private Jogador controlador;
 	private Integer vidaAtual;
 	private boolean derrotado;
@@ -34,6 +35,14 @@ public class Lutador {
 
 	public void setAdversario(Lutador adversario) {
 		this.adversario = adversario;
+	}
+
+	public Ataque getAtaqueSelecionado() {
+		return ataqueSelecionado;
+	}
+
+	public void setAtaqueSelecionado(Ataque ataqueSelecionado) {
+		this.ataqueSelecionado = ataqueSelecionado;
 	}
 
 	public Integer getVidaAtual() {
@@ -74,14 +83,10 @@ public class Lutador {
 		return getEspecime().getMeusAtaques().get(gerador.nextInt(qtAtaques)).getAtaque();
 	}
 	
-	public Ataque menuDeAtaque() {
-		return getEspecime().getMeusAtaques().get(0).getAtaque();
-	}
-	
 	public void atacar(Lutador adversario, List<String> mensagens) {
 		Ataque ataque;
 		if(isJogador())
-			ataque = menuDeAtaque();
+			ataque = getAtaqueSelecionado();
 		else
 			ataque = escolherAtaque();
 		
@@ -114,6 +119,7 @@ public class Lutador {
 		//System.out.println(stab(ataque, adversario) + "stab" + modificador);
 		if (dano >= getVidaAtual()) {
 			setDerrotado(true);
+			setVidaAtual(0);
 			mensagens.add(getNome() + " não consegue mais lutar!");
 			adversario.vencer(mensagens);
 		} else {

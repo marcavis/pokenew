@@ -12,29 +12,28 @@ public class Batalha{
 	private List<String> mensagens;
 	private Lutador lutadorDaEsquerda;
 	private Lutador lutadorDaDireita;
+	private Boolean fim = false;
 	
 	public void lutar() {
-		mensagens = new ArrayList<String>();
+		setMensagens(new ArrayList<String>());
 		
-		lutadores = new ArrayList<Lutador>();
+		setLutadores(new ArrayList<Lutador>());
 		lutadores.add(new Lutador(pokemon1, Jogador.JOGADOR));
 		setLutadorDaEsquerda(lutadores.get(0));
 		lutadores.add(new Lutador(pokemon2, Jogador.COMPUTADOR));
 		setLutadorDaDireita(lutadores.get(1));
 		lutadores.get(0).setAdversario(lutadores.get(1));
 		lutadores.get(1).setAdversario(lutadores.get(0));
-		boolean fim = false;
-		while(fim == false) {
-			lutadores = ordenarPorVelocidade(lutadores);
-			for (Lutador l : lutadores) {
-				mensagens.add(l.getNome() + " tem " + l.getVidaAtual() + " pontos de vida.");
-			}
-			for (Lutador l : lutadores) {
-				l.atacar(l.getAdversario(), mensagens);
-				if(l.getAdversario().isDerrotado()) {
-					fim = true;
-					break;
-				}
+	}
+	
+	public void rodada() {
+		lutadores = ordenarPorVelocidade(lutadores);
+		setMensagens(new ArrayList<String>());
+		for (Lutador l : lutadores) {
+			l.atacar(l.getAdversario(), mensagens);
+			if(l.getAdversario().isDerrotado()) {
+				setFim(true);
+				break;
 			}
 		}
 	}
@@ -110,5 +109,13 @@ public class Batalha{
 		return getLutadorDaDireita().getNome() + ": "
 				+ getLutadorDaDireita().getVidaAtual() + "/" + getLutadorDaDireita().getEspecime().getVida()
 				+ " ❤";
+	}
+
+	public Boolean getFim() {
+		return fim;
+	}
+
+	public void setFim(Boolean fim) {
+		this.fim = fim;
 	}
 }
