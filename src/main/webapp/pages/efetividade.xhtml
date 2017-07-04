@@ -55,6 +55,25 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
     		</p:confirmDialog>
 		</p:panel>
 	</h:form>
+	<h:form id="gridTab">
+		<p:panel header="Efetividades">
+			<p:dataTable emptyMessage="Sem registros"
+			value="#{tipoBean.tipos}" var="linha" id="table" widgetVar="efetividadeTable">
+				<p:column headerText="Defesa → &lt;br /&gt; Ataque ↓">
+					<h:outputText value="#{linha.nome}" />
+				</p:column>
+				<p:columns value="#{tipoBean.tipos}" var="coluna" columnIndexVar="colunaIndex" headerText="#{coluna.nome}">
+					<p:commandButton value="" icon="ui-icon-pencil"
+					actionListener="#{efetividadeBean.novo}" oncomplete="PF('efetividadeDialog').show();" update=":formTab:table :formCad:telaCad :msg" />
+					<p:outputLabel value="#{efetividadeBean.getEfetividade(linha, coluna).efetividade}%" />
+				</p:columns>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+		</p:panel>
+	</h:form>
 	
 	<p:dialog header="Efetividade - Cadastro" widgetVar="efetividadeDialog"
 	resizable="false" draggable="false" modal="true" closable="false">
@@ -90,7 +109,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="formTab">
-				<p:commandButton value="Salvar" actionListener="#{efetividadeBean.salvar}" update=":msg :formCad:telaCad :formTab:table"/>
+				<p:commandButton value="Salvar" actionListener="#{efetividadeBean.salvar}" update=":msg :formCad:telaCad :formTab:table :gridTab:table"/>
 				<p:commandButton value="Fechar" oncomplete="PF('efetividadeDialog').hide()"/>
 			</h:panelGrid>
 		</h:form>

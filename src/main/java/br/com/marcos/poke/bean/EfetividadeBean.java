@@ -69,10 +69,24 @@ public class EfetividadeBean implements Serializable{
 	public void novo() {
 		efetividade = new Efetividade();
 		carregaTipos();
+		System.out.println("gll");
 	}
 	
 	public Efetividade getEfetividade() {
 		return efetividade;
+	}
+	
+	public Efetividade getEfetividade(Tipo tipo1, Tipo tipo2) {
+		for (Efetividade ef : efetividades) {
+			if(ef.getTipo1().getCodigo() == tipo1.getCodigo() &&
+					ef.getTipo2().getCodigo() == tipo2.getCodigo())
+				return ef;
+		}
+		Efetividade vazia = new Efetividade();
+		vazia.setTipo1(tipo1);
+		vazia.setTipo2(tipo2);
+		vazia.setEfetividade(100);
+		return null;
 	}
 
 	public void setEfetividade(Efetividade efetividade) {
