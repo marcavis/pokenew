@@ -7,54 +7,6 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       template="/templates/principal.xhtml">
 <ui:define name="telas">
-	<h:form id="formTab">
-		<p:panel header="Efetividades">
-			<p:dataTable emptyMessage="Sem registros" paginator="true"
-			value="#{efetividadeBean.efetividades}" var="efetividade" id="table" widgetVar="efetividadeTable">
-				<f:facet name="header">
-					<p:commandButton value="Novo" actionListener="#{efetividadeBean.novo}" oncomplete="PF('efetividadeDialog').show();" update=":formCad:telaCad :msg"/>
-				</f:facet>
-				<p:column headerText="Tipo do Atacante" sortBy="#{efetividade.tipo1.nome}" filterBy="#{efetividade.tipo1.nome}">
-					<h:outputText value="#{efetividade.tipo1.nome}" />
-				</p:column>
-				<p:column headerText="Tipo do Defensor" sortBy="#{efetividade.tipo2.nome}" filterBy="#{efetividade.tipo2.nome}">
-					<h:outputText value="#{efetividade.tipo2.nome}" />
-				</p:column>
-				<p:column headerText="Efetividade" sortBy="#{efetividade.efetividade}" 
-				filterBy="#{efetividade.efetividade}"  filterMatchMode="equals">
-					<f:facet name="filter">
-		                <p:selectOneButton onchange="PF('efetividadeTable').filter()">
-		                    <f:converter converterId="javax.faces.Integer" />
-		                    <f:selectItem itemLabel="Todas" itemValue="" />
-		                    <f:selectItem itemLabel="0%" itemValue="0" />
-		                    <f:selectItem itemLabel="50%" itemValue="50" />
-		                    <f:selectItem itemLabel="100%" itemValue="100" />
-		                    <f:selectItem itemLabel="200%" itemValue="200" />
-		                </p:selectOneButton>
-		            </f:facet>
-					<h:outputText value="#{efetividade.efetividade}" />
-					<h:outputText value="%" />
-				</p:column>
-				<p:column headerText="Opções">
-					<p:commandButton icon="ui-icon-trash" actionListener="#{efetividadeBean.excluir}"
-					update=":msg :formTab:table">
-						<p:confirm header="Confirmação" 
-						message="Excluir essa Efetividade?" icon="ui-icon-alert" />
-						<f:attribute name="efetividadeExcluir" value="#{efetividade}"/>
-					</p:commandButton>
-					
-					<p:commandButton icon="ui-icon-pencil" oncomplete="PF('efetividadeDialog').show();"
-					actionListener="#{efetividadeBean.alterar}" update=":formCad:telaCad :msg">
-						<f:attribute name="efetividadeAlterar" value="#{efetividade}"/>
-					</p:commandButton>
-				</p:column>
-			</p:dataTable>
-			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-		        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-		        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-    		</p:confirmDialog>
-		</p:panel>
-	</h:form>
 	<h:form id="gridTab">
 		<p:panel header="Efetividades">
 			<p:dataTable emptyMessage="Sem registros"
@@ -63,9 +15,11 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 					<h:outputText value="#{linha.nome}" />
 				</p:column>
 				<p:columns value="#{tipoBean.tipos}" var="coluna" columnIndexVar="colunaIndex" headerText="#{coluna.nome}">
-					<p:commandButton value="" icon="ui-icon-pencil"
-					actionListener="#{efetividadeBean.novo}" oncomplete="PF('efetividadeDialog').show();" update=":formTab:table :formCad:telaCad :msg" />
-					<p:outputLabel value="#{efetividadeBean.getEfetividade(linha, coluna).efetividade}%" />
+					<p:commandButton value="#{efetividadeBean.getEfetividade(linha, coluna).efetividade}%" icon="ui-icon-pencil"
+					actionListener="#{efetividadeBean.novo}" oncomplete="PF('efetividadeDialog').show();" update=":formCad:telaCad :msg" >
+						<f:attribute name="linhaAtual" value="#{linha}"/>
+						<f:attribute name="colunaAtual" value="#{coluna}"/>
+					</p:commandButton>
 				</p:columns>
 			</p:dataTable>
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -80,23 +34,9 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 		<h:form id="formCad">
 			<h:panelGrid columns="2" id="telaCad">
 				<p:outputLabel value="Tipo do Atacante"/>
-				<p:selectOneMenu filter="true" value="#{efetividadeBean.efetividade.tipo1}"
-				required="true" requiredMessage="Tipo do atacante é obrigatório"
-				converter="omnifaces.SelectItemsConverter">
-					<f:selectItem itemLabel="Selecione um tipo" itemValue=""/>
-					<f:selectItems value="#{efetividadeBean.tipos}" var="tipo"
-					itemLabel="#{tipo.nome}"
-					itemValue="#{tipo}"/>
-				</p:selectOneMenu>
+				<p:outputLabel value="#{efetividadeBean.efetividade.tipo1.nome}"/>
 				<p:outputLabel value="Tipo do Defensor"/>
-				<p:selectOneMenu filter="true" value="#{efetividadeBean.efetividade.tipo2}"
-				required="true" requiredMessage="Tipo do defensor é obrigatório"
-				converter="omnifaces.SelectItemsConverter">
-					<f:selectItem itemLabel="Selecione um tipo" itemValue=""/>
-					<f:selectItems value="#{efetividadeBean.tipos}" var="tipo"
-					itemLabel="#{tipo.nome}"
-					itemValue="#{tipo}"/>
-				</p:selectOneMenu>
+				<p:outputLabel value="#{efetividadeBean.efetividade.tipo2.nome}"/>
 				<p:outputLabel value="Efetividade"/>
 				<p:selectOneMenu filter="false" value="#{efetividadeBean.efetividade.efetividade}"
 				required="true" requiredMessage="Obrigatório definir uma efetividade"
@@ -109,7 +49,7 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 				
 			</h:panelGrid>
 			<h:panelGrid columns="2" id="formTab">
-				<p:commandButton value="Salvar" actionListener="#{efetividadeBean.salvar}" update=":msg :formCad:telaCad :formTab:table :gridTab:table"/>
+				<p:commandButton value="Salvar" actionListener="#{efetividadeBean.salvar}" oncomplete="PF('efetividadeDialog').hide()" update=":msg :formCad:telaCad :gridTab:table"/>
 				<p:commandButton value="Fechar" oncomplete="PF('efetividadeDialog').hide()"/>
 			</h:panelGrid>
 		</h:form>

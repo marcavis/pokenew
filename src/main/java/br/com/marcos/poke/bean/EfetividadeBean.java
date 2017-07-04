@@ -66,10 +66,18 @@ public class EfetividadeBean implements Serializable{
 		}
 	}
 	
+	public void novo(ActionEvent evento) {
+		efetividade = new Efetividade();
+		Tipo linhaAtual = (Tipo)evento.getComponent().getAttributes().get("linhaAtual");
+		Tipo colunaAtual = (Tipo)evento.getComponent().getAttributes().get("colunaAtual");
+		efetividade.setTipo1(linhaAtual);
+		efetividade.setTipo2(colunaAtual);
+		carregaTipos();
+	}
+	
 	public void novo() {
 		efetividade = new Efetividade();
 		carregaTipos();
-		System.out.println("gll");
 	}
 	
 	public Efetividade getEfetividade() {
@@ -82,10 +90,6 @@ public class EfetividadeBean implements Serializable{
 					ef.getTipo2().getCodigo() == tipo2.getCodigo())
 				return ef;
 		}
-		Efetividade vazia = new Efetividade();
-		vazia.setTipo1(tipo1);
-		vazia.setTipo2(tipo2);
-		vazia.setEfetividade(100);
 		return null;
 	}
 
@@ -117,8 +121,8 @@ public class EfetividadeBean implements Serializable{
 				if(ef.getCodigo() != efetividade.getCodigo() && 
 						ef.getTipo1().getNome().equals(efetividade.getTipo1().getNome()) &&
 						ef.getTipo2().getNome().equals(efetividade.getTipo2().getNome())) {
-					Messages.addGlobalError("Efetividade entre esses tipos já existe!");
-					throw new Exception();
+					//substituir a efetividade antiga pela que estamos salvando agora
+					efetividade.setCodigo(ef.getCodigo());
 				}
 			}
 			dao.merge(efetividade);
