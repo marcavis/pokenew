@@ -10,7 +10,9 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
+import br.com.marcos.poke.dao.EfetividadeDao;
 import br.com.marcos.poke.dao.TipoDao;
+import br.com.marcos.poke.domain.Efetividade;
 import br.com.marcos.poke.domain.Tipo;
 
 @ManagedBean
@@ -24,11 +26,29 @@ public class TipoBean implements Serializable{
 		try {
 			tipo = (Tipo) evento.getComponent().getAttributes().get("tipoExcluir");
 			TipoDao dao = new TipoDao();
+			excluirEfetividades();
 			dao.excluir(tipo);
 			listar();
 			Messages.addGlobalInfo("Tipo " + tipo.getNome() + " excluído com sucesso.");
 		} catch (Exception e) {
 			Messages.addGlobalError("Erro ao excluir Tipo");
+			e.printStackTrace();
+		}
+	}
+	
+	public void excluirEfetividades() {
+		try {
+			EfetividadeDao dao = new EfetividadeDao();
+			List<Efetividade> efetividades = dao.listarTodos("tipo1.codigo", getTipo().getCodigo());
+			for (Efetividade ef : efetividades) {
+				dao.excluir(ef);
+			}
+			efetividades = dao.listarTodos("tipo2.codigo", getTipo().getCodigo());
+			for (Efetividade ef : efetividades) {
+				dao.excluir(ef);
+			}
+		} catch (Exception e) {
+			Messages.addGlobalError("Erro ao excluir cadastramentos deste ataque em pokémons");
 			e.printStackTrace();
 		}
 	}
