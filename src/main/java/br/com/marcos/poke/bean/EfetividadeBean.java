@@ -96,6 +96,20 @@ public class EfetividadeBean implements Serializable{
 		vazia.setEfetividade(100);
 		return vazia;
 	}
+	
+	public String getCorDaEfetividade(Tipo tipo1, Tipo tipo2) {
+		Integer valor = getEfetividade(tipo1, tipo2).getEfetividade();
+		String cor;
+		if(valor == 0)
+			cor = "1f1f1f";
+		else if(valor == 50)
+			cor = "7f1f1f";
+		else if(valor == 100)
+			cor = "3f7f3f";
+		else
+			cor = "3f3fff";
+		return "color:#" + cor + ";";
+	}
 
 	public void setEfetividade(Efetividade efetividade) {
 		this.efetividade = efetividade;

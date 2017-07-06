@@ -15,8 +15,9 @@ xmlns:h="http://xmlns.jcp.org/jsf/html"
 					<h:outputText value="#{linha.nome}" />
 				</p:column>
 				<p:columns value="#{tipoBean.tipos}" var="coluna" columnIndexVar="colunaIndex" headerText="#{coluna.nome}">
-					<p:commandButton value="#{efetividadeBean.getEfetividade(linha, coluna).efetividade}%" icon="ui-icon-pencil"
-					actionListener="#{efetividadeBean.novo}" oncomplete="PF('efetividadeDialog').show();" update=":formCad:telaCad :msg" >
+					<p:commandButton value="#{efetividadeBean.getEfetividade(linha, coluna).efetividade}%" 
+					actionListener="#{efetividadeBean.novo}" oncomplete="PF('efetividadeDialog').show();" update=":formCad:telaCad :msg"
+					style="#{efetividadeBean.getCorDaEfetividade(linha, coluna)}">
 						<f:attribute name="linhaAtual" value="#{linha}"/>
 						<f:attribute name="colunaAtual" value="#{coluna}"/>
 					</p:commandButton>
